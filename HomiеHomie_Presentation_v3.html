@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomiеHomie — Team Structure</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F4EFE6;
+  --dark: #181816;
+  --brew: #2C4A3E;
+  --fa: #7A3810;
+  --meen: #243458;
+  --gold: #C9963A;
+  --border: rgba(24,24,22,0.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--dark); }
+
+/* SLIDE ENGINE */
+.deck { width: 100vw; height: 100vh; position: relative; }
+.slide {
+  position: absolute; inset: 0;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(16px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.out { opacity: 0; transform: translateY(-16px); }
+
+/* NAV */
+.nav {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 16px; z-index: 100;
+  background: rgba(24,24,22,0.7); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 40px;
+  padding: 8px 20px;
+}
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.5); font-size: 18px; padding: 4px 8px;
+  transition: color 0.15s;
+}
+.nav-btn:hover { color: #fff; }
+.nav-dots { display: flex; gap: 6px; align-items: center; }
+.dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s;
+}
+.dot.on { background: var(--gold); width: 20px; border-radius: 3px; }
+.slide-num { font-family: 'Bebas Neue', sans-serif; font-size: 14px; color: rgba(255,255,255,0.3); letter-spacing: 2px; min-width: 40px; text-align: center; }
+
+/* ─── SLIDE 1 — COVER ─────────────────────────────────────────── */
+#s1 { background: var(--dark); justify-content: center; align-items: center; }
+.cover-inner { text-align: center; position: relative; }
+.cover-bg-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(120px, 18vw, 220px);
+  color: rgba(255,255,255,0.04);
+  letter-spacing: 8px;
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  white-space: nowrap; pointer-events: none;
+  user-select: none;
+}
+.cover-eyebrow {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px; font-weight: 400;
+}
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 10vw, 120px);
+  letter-spacing: 4px; color: #fff; line-height: 0.9;
+}
+.cover-title span { color: var(--gold); }
+.cover-sub {
+  margin-top: 20px; font-size: 15px; font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 2px;
+  font-style: italic;
+}
+.cover-rule { width: 48px; height: 2px; background: var(--gold); margin: 28px auto; }
+.cover-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.pill {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 6px 16px; border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; color: rgba(255,255,255,0.5);
+}
+
+/* ─── SLIDE 2 — GOAL ──────────────────────────────────────────── */
+#s2 { background: var(--cream); }
+.slide-header {
+  padding: 48px 64px 32px;
+  border-bottom: 1px solid var(--border);
+}
+.slide-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.slide-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 2px; color: var(--dark); line-height: 1; }
+.slide-body { flex: 1; padding: 40px 64px; display: flex; gap: 32px; }
+
+.goal-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(100px, 14vw, 160px);
+  line-height: 1; color: var(--dark);
+}
+.goal-number span { color: var(--gold); font-size: 0.5em; vertical-align: middle; }
+.goal-right { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.goal-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(24,24,22,0.4); }
+.goal-desc { font-size: 18px; font-weight: 300; color: var(--dark); line-height: 1.6; }
+.goal-conditions { margin-top: 8px; display: flex; flex-direction: column; gap: 10px; }
+.gcond {
+  display: flex; align-items: baseline; gap: 12px;
+  font-size: 14px; color: rgba(24,24,22,0.65); font-weight: 300;
+}
+.gcond::before { content: '→'; color: var(--gold); flex-shrink: 0; font-weight: 400; }
+
+/* ─── SLIDE 3 — TEAM ──────────────────────────────────────────── */
+#s3 { background: var(--dark); }
+.team-grid {
+  flex: 1; display: grid; grid-template-columns: 3fr 1fr 1fr;
+  gap: 0; overflow: hidden;
+}
+.member {
+  padding: 40px 36px; display: flex; flex-direction: column; gap: 20px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+}
+.member:last-child { border-right: none; }
+.member-brew { background: var(--brew); }
+.member-fa   { background: #1A0E08; }
+.member-meen { background: #0D1524; }
+
+.m-pct { font-family: 'Bebas Neue', sans-serif; font-size: 72px; color: #fff; opacity: 0.15; line-height: 1; }
+.m-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: #fff; margin-top: -20px; }
+.m-role { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.m-tasks { display: flex; flex-direction: column; gap: 8px; }
+.m-task { display: flex; gap: 10px; font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.5; }
+.m-task::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+.m-divider { height: 1px; background: rgba(255,255,255,0.08); }
+.m-floor { font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.3); }
+.m-floor strong { color: #fff; font-size: 16px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+
+/* ─── SLIDE 4 — MONEY ─────────────────────────────────────────── */
+#s4 { background: var(--cream); }
+.money-split {
+  flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+}
+.money-card {
+  padding: 48px 56px; display: flex; flex-direction: column; gap: 24px;
+}
+.money-card.dark { background: var(--dark); }
+.money-card.light { background: var(--cream); border-left: 1px solid var(--border); }
+.mc-who { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+.dark .mc-who { color: rgba(255,255,255,0.35); }
+.light .mc-who { color: rgba(24,24,22,0.35); }
+.mc-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 2px; }
+.dark .mc-title { color: #fff; }
+.light .mc-title { color: var(--dark); }
+.mc-items { display: flex; flex-direction: column; gap: 12px; }
+.mc-item {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 14px; font-weight: 300; line-height: 1.5;
+  padding-bottom: 12px; border-bottom: 1px solid;
+}
+.dark .mc-item { color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.07); }
+.light .mc-item { color: rgba(24,24,22,0.6); border-color: rgba(24,24,22,0.08); }
+.mc-item:last-child { border-bottom: none; padding-bottom: 0; }
+.mc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.dot-yes { background: #5BAA84; }
+.dot-no  { background: #C05050; }
+
+/* ─── SLIDE 5 — DOCS ──────────────────────────────────────────── */
+#s5 { background: var(--dark); }
+.docs-grid {
+  flex: 1; display: grid; grid-template-columns: repeat(7,1fr); gap: 0; padding: 0;
+}
+.doc-card {
+  padding: 36px 20px; display: flex; flex-direction: column; justify-content: space-between;
+  border-right: 1px solid rgba(255,255,255,0.06); cursor: default;
+  transition: background 0.2s;
+  min-height: 0;
+}
+.doc-card:last-child { border-right: none; }
+.doc-card.brew { background: var(--brew); }
+.doc-card.fa   { background: #1A0E08; }
+.doc-card.meen { background: #0D1524; }
+.doc-card.shared { background: #1A1A16; }
+.doc-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 64px;
+  color: rgba(255,255,255,0.1); line-height: 1;
+}
+.doc-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.4; margin: 12px 0 6px; }
+.doc-owner { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.doc-status {
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 8px; border-radius: 2px; display: inline-block; margin-top: 12px;
+}
+.status-active { background: rgba(91,170,132,0.2); color: #5BAA84; }
+.status-pending { background: rgba(201,150,58,0.2); color: var(--gold); }
+
+/* ─── SLIDE 6 — TIMELINE ──────────────────────────────────────── */
+#s6 { background: var(--cream); }
+.tl-wrap { flex: 1; padding: 0 0 0; overflow: hidden; }
+.tl-table { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.tl-months { display: grid; border-bottom: 1px solid var(--border); }
+.tl-month-cell {
+  text-align: center; padding: 8px 0;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(24,24,22,0.4); border-left: 1px solid var(--border);
+  font-weight: 500;
+}
+.tl-weeks { display: grid; border-bottom: 1px solid var(--border); }
+.tl-wc { text-align: center; font-size: 7px; color: rgba(24,24,22,0.18); border-left: 1px solid rgba(24,24,22,0.04); padding: 3px 0; }
+.tl-phase-band { display: grid; height: 14px; }
+.tl-pb { font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; padding: 0 5px; font-weight: 600; }
+.tl-lanes { flex: 1; overflow-y: auto; }
+.tl-group-hdr { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 7px 8px 4px; color: rgba(24,24,22,0.35); border-top: 1px solid var(--border); background: rgba(24,24,22,0.03); }
+.tl-lane-row { display: grid; min-height: 30px; border-bottom: 1px solid rgba(24,24,22,0.04); }
+.tl-lbl { display: flex; align-items: center; gap: 6px; padding: 4px 8px 4px 4px; font-size: 10px; color: rgba(24,24,22,0.5); font-weight: 500; white-space: nowrap; overflow: hidden; }
+.tl-lbl-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.tl-cell { position: relative; border-left: 1px solid rgba(24,24,22,0.025); }
+.tl-bar {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  height: 18px; border-radius: 3px; left: 1px; right: 1px;
+  display: flex; align-items: center; padding: 0 6px;
+  font-size: 9px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tb-brew { background: var(--brew); color: rgba(255,255,255,0.9); }
+.tb-fa   { background: var(--fa);   color: rgba(255,255,255,0.9); }
+.tb-meen { background: var(--meen); color: rgba(255,255,255,0.9); }
+.tb-shared { background: var(--gold); color: #18181600; }
+.tb-shared { color: var(--dark); }
+
+/* ─── SLIDE 7 — CLOSE ─────────────────────────────────────────── */
+#s7 { background: var(--dark); justify-content: center; align-items: center; }
+.close-inner { text-align: center; }
+.close-year {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px,13vw,160px); color: rgba(255,255,255,0.06);
+  letter-spacing: 8px; line-height: 1;
+}
+.close-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px,5vw,60px); letter-spacing: 3px; color: #fff;
+  margin-top: -20px;
+}
+.close-rule { width: 40px; height: 2px; background: var(--gold); margin: 24px auto; }
+.close-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,0.08); margin-top: 32px; max-width: 640px; }
+.cg-cell { background: var(--dark); padding: 24px 28px; }
+.cg-num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--gold); line-height: 1; }
+.cg-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ── SLIDE 1: COVER ── -->
+<div class="slide active" id="s1">
+  <div class="cover-inner">
+    <div class="cover-bg-text">HH</div>
+    
+    <div class="cover-title">HOMIE<span>HOMIE</span></div>
+    <div class="cover-sub">Team Structure & Operating Model</div>
+    <div class="cover-rule"></div>
+    <div class="cover-pills">
+      
+      
+      <div class="pill">เป้า 5 ล้าน / 5 ปี</div>
+      <div class="pill">เริ่ม พ.ค. 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 2: GOAL ── -->
+<div class="slide" id="s2">
+  <div class="slide-header">
+    <div class="slide-eyebrow">เป้าหมาย</div>
+    <div class="slide-title">5 ล้าน ใน 5 ปี</div>
+  </div>
+  <div class="slide-body">
+    <div>
+      <div class="goal-number">5<span>M฿</span></div>
+      <div style="font-size:13px;color:rgba(24,24,22,0.4);letter-spacing:1px;margin-top:8px;">เงินสดสุทธิ Brew · เริ่มนับ พ.ค. 2026</div>
+    </div>
+    <div class="goal-right">
+      <div>
+        <div class="goal-label">โมเดลธุรกิจ</div>
+        <div class="goal-desc">เน้นไปที่ทาวน์โฮมมือสอง ในโครงการ → รีโนเวท → ขายทำกำไร 15–25%</div>
+      </div>
+      <div>
+        <div class="goal-label">ถึงเป้าได้ถ้า</div>
+        <div class="goal-conditions">
+          <div class="gcond">Margin ≥ 15% รักษาไว้ได้ทุกดีล</div>
+          <div class="gcond">กู้แบงค์ได้ปีที่ 2 → overlap 4+ deals/ปี</div>
+          <div class="gcond">Volume 5–6 deals ปีที่ 4–5</div>
+          <div class="gcond">มีดีล Margin 25%+ อย่างน้อย 2–3 ดีล</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 3: TEAM ── -->
+<div class="slide" id="s3">
+  <div style="padding:32px 40px 20px;background:var(--dark);flex-shrink:0;">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">โครงสร้างทีม</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;">3 หน้าที่</div>
+  </div>
+  <div class="team-grid">
+    <div class="member member-brew">
+      <div>
+        <div class="m-pct">60%</div>
+        <div class="m-name">Brew</div>
+        <div class="m-role">CEO · CMO · Lead Architect</div>
+      </div>
+      <div class="m-tasks">
+        <div class="m-task">Recheck ทรัพย์ที่มีน+อรเสนอ + go/no-go ภายใน 48 ชม.</div>
+        <div class="m-task">Design แต่ละทรัพย์ + วัดไซต์กับฟ้า</div>
+        <div class="m-task">ทำ Design Presentation + approve change order</div>
+        <div class="m-task">ทำ content + จัดการเพจ FB / IG / TikTok</div>
+        <div class="m-task">จัดการเอกสาร + ดูแล master finance</div>
+      </div>
+      <div>
+        <div class="m-divider"></div>
+        <div class="m-floor" style="margin-top:12px;">Floor <strong>40%</strong> &nbsp;·&nbsp; เก็บส่วนตัว 20% · reinvest 80%</div>
+      </div>
+    </div>
+    <div class="member member-fa">
+      <div>
+        <div class="m-pct">20%</div>
+        <div class="m-name">ฟ้า</div>
+        <div class="m-role">COO · Project Finance</div>
+      </div>
+      <div class="m-tasks">
+        <div class="m-task">วัดไซต์ existing</div>
+        <div class="m-task">Clears BOQ หลัง design</div>
+        <div class="m-task">คุยช่าง + เลือกวัสดุ</div>
+        <div class="m-task">Site recheck + ดูแลหน้างาน</div>
+        <div class="m-task">จ่ายช่าง + track cost</div>
+        <div class="m-task">ถ่ายรูป / คลิป ให้ Brew</div>
+      </div>
+      <div>
+        <div class="m-divider"></div>
+        <div class="m-floor" style="margin-top:12px;">Floor <strong>10%</strong></div>
+      </div>
+    </div>
+    <div class="member member-meen">
+      <div>
+        <div class="m-pct">20%</div>
+        <div class="m-name">มีน+อร</div>
+        <div class="m-role">Head of Sourcing · CMO</div>
+      </div>
+      <div class="m-tasks">
+        <div class="m-task">หาทรัพย์ (บังคับคดี/NPA)</div>
+        <div class="m-task">วิเคราะห์ comp + persona</div>
+        <div class="m-task">Budget ROI + risk analysis</div>
+        <div class="m-task">Pitch เสนอ Brew</div>
+        <div class="m-task">โพสขาย + ดู inbox</div>
+        <div class="m-task">Customer deal + ปิดการขาย</div>
+      </div>
+      <div>
+        <div class="m-divider"></div>
+        <div class="m-floor" style="margin-top:12px;">Floor <strong>10%</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── SLIDE 4: PENALTY ── -->
+<div class="slide" id="s4p">
+  <div style="padding:32px 40px 20px;background:var(--dark);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">ระบบ Penalty</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;">ถ้าไม่ทำ — ตัด % โยกให้ใคร</div>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:3fr 1fr 1fr;gap:0;overflow:hidden;">
+
+    <!-- BREW -->
+    <div style="padding:32px 36px;background:var(--brew);display:flex;flex-direction:column;gap:16px;overflow-y:auto;border-right:1px solid rgba(255,255,255,0.07);">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#fff;">Brew <span style="font-size:16px;opacity:0.4;font-family:'Sarabun',sans-serif;font-weight:300;letter-spacing:1px;">60%</span></div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:2px;">CEO · CMO · Lead Architect</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+          <td style="padding:10px 0;font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;width:36%">งานที่หาย</td>
+          <td style="padding:10px 0;font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;width:18%;text-align:center;">ตัด</td>
+          <td style="padding:10px 0;font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;">โยกให้</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <td style="padding:11px 0;font-size:13px;font-weight:300;color:rgba(255,255,255,0.8);">Design / concept</td>
+          <td style="padding:11px 0;font-size:14px;font-weight:500;color:#E07070;text-align:center;">−10%</td>
+          <td style="padding:11px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.55);">จ้างภายนอก หักก่อนแบ่ง</td>
+        </tr>
+        <tr>
+          <td style="padding:11px 0;font-size:13px;font-weight:300;color:rgba(255,255,255,0.8);">Content / social</td>
+          <td style="padding:11px 0;font-size:14px;font-weight:500;color:#E07070;text-align:center;">−5%</td>
+          <td style="padding:11px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.55);">มีน+อร +5%</td>
+        </tr>
+      </table>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);">Floor ขั้นต่ำ</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:1px;">40%</span>
+      </div>
+    </div>
+
+    <!-- FA -->
+    <div style="padding:32px 24px;background:#1A0E08;display:flex;flex-direction:column;gap:16px;overflow-y:auto;border-right:1px solid rgba(255,255,255,0.07);">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#fff;">ฟ้า <span style="font-size:16px;opacity:0.4;font-family:'Sarabun',sans-serif;font-weight:300;letter-spacing:1px;">20%</span></div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:2px;">COO · Project Finance</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+          <td style="padding:8px 0;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;">งานที่หาย</td>
+          <td style="padding:8px 0;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;text-align:center;">ตัด</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <td style="padding:10px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.8);">ไม่ลงไซต์ / ไม่ควบคุมงาน</td>
+          <td style="padding:10px 0;font-size:13px;font-weight:500;color:#E07070;text-align:center;">−10%</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.8);">BOQ / cost tracking ไม่ส่ง</td>
+          <td style="padding:10px 0;font-size:13px;font-weight:500;color:#E07070;text-align:center;">−5%</td>
+        </tr>
+      </table>
+      <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,0.35);line-height:1.5;">% ที่ตัดออกโยกให้ Brew +5% ต่อรายการ</div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);">Floor</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:1px;">10%</span>
+      </div>
+    </div>
+
+    <!-- MEEN -->
+    <div style="padding:32px 24px;background:#0D1524;display:flex;flex-direction:column;gap:16px;overflow-y:auto;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#fff;">มีน+อร <span style="font-size:16px;opacity:0.4;font-family:'Sarabun',sans-serif;font-weight:300;letter-spacing:1px;">20%</span></div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:2px;">Sourcing · CMO</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+          <td style="padding:8px 0;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;">งานที่หาย</td>
+          <td style="padding:8px 0;font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;text-align:center;">ตัด</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <td style="padding:10px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.8);">Sourcing < 2 ทรัพย์/เดือน</td>
+          <td style="padding:10px 0;font-size:13px;font-weight:500;color:#E07070;text-align:center;">−10%</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <td style="padding:10px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.8);">ไม่ manage inbox / viewer</td>
+          <td style="padding:10px 0;font-size:13px;font-weight:500;color:#E07070;text-align:center;">−5%</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0;font-size:12px;font-weight:300;color:rgba(255,255,255,0.8);">ไม่ช่วยปิดดีล</td>
+          <td style="padding:10px 0;font-size:13px;font-weight:500;color:#E07070;text-align:center;">−5%</td>
+        </tr>
+      </table>
+      <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,0.35);line-height:1.5;">% ที่ตัดออกโยกให้ Brew +5% ต่อรายการ</div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);">Floor</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:1px;">10%</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── SLIDE 4: MONEY ── -->
+<div class="slide" id="s4">
+  <div style="padding:32px 40px 20px;border-bottom:1px solid var(--border);flex-shrink:0;">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">การเงิน</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:var(--dark);">ใครเห็นอะไร</div>
+  </div>
+  <div class="money-split">
+    <div class="money-card dark">
+      <div>
+        <div class="mc-who">Brew — CEO</div>
+        <div class="mc-title">ภาพรวมทั้งหมด</div>
+      </div>
+      <div class="mc-items">
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>ทุนทั้งหมดต่อดีล (เงินกู้จากที่บ้าน)</div>
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>Reserve pool รวม — สะสมแต่ละดีล</div>
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>กำไรก่อนแบ่ง + หลังแบ่ง ทุกดีล</div>
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>Projection 5 ปี ต่อเป้า 5M</div>
+      </div>
+    </div>
+    <div class="money-card light">
+      <div>
+        <div class="mc-who">ฟ้า — COO / Project Finance</div>
+        <div class="mc-title">ระดับโปรเจคเท่านั้น</div>
+      </div>
+      <div class="mc-items">
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>งบรีโนเวทต่อดีลที่ตัวเองดูแล</div>
+        <div class="mc-item"><div class="mc-dot dot-yes"></div>จ่ายช่างไปเท่าไหร่ — cost vs BOQ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 5: DOCS ── -->
+<div class="slide" id="s5">
+  <div style="padding:32px 40px 20px;background:var(--dark);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">เอกสาร</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:#fff;">Document System — 7 Files</div>
+  </div>
+  <div class="docs-grid">
+    <div class="doc-card meen">
+      <div><div class="doc-num">01</div><div class="doc-name">Pipeline + Assessment</div><div class="doc-owner">มีน+อร</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card meen">
+      <div><div class="doc-num">02</div><div class="doc-name">Competitor Template</div><div class="doc-owner">มีน+อร</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card meen">
+      <div><div class="doc-num">03</div><div class="doc-name">Pitch Presentation</div><div class="doc-owner">มีน+อร → เสนอ Brew</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card fa">
+      <div><div class="doc-num">04</div><div class="doc-name">BOQ Template</div><div class="doc-owner">ฟ้า</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card brew">
+      <div><div class="doc-num">05</div><div class="doc-name">Design Presentation</div><div class="doc-owner">Brew</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card brew">
+      <div><div class="doc-num">06</div><div class="doc-name">Content SNS</div><div class="doc-owner">Brew → FB/IG/TikTok</div></div>
+      <div class="doc-status status-active">Active</div>
+    </div>
+    <div class="doc-card shared">
+      <div><div class="doc-num">07</div><div class="doc-name">Legal Documents</div><div class="doc-owner">อยู่กับแม่</div></div>
+      <div class="doc-status status-pending">Pending</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 6: TIMELINE ── -->
+<div class="slide" id="s6">
+  <div style="padding:28px 40px 16px;border-bottom:1px solid var(--border);flex-shrink:0;">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Process</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;color:var(--dark);">8 เดือน ต่อ 1 Deal — Deal 01 · พ.ย. 2026</div>
+  </div>
+  <div class="tl-wrap" id="tl-wrap"></div>
+</div>
+
+<!-- ── SLIDE 7: CLOSE ── -->
+<div class="slide" id="s7">
+  <div class="close-inner">
+    <div class="close-year">2026–2030</div>
+    <div class="close-title">เริ่มต้น พ.ค. 2026</div>
+    <div class="close-rule"></div>
+    <div class="close-grid">
+      <div class="cg-cell"><div class="cg-num">8</div><div class="cg-lbl">เดือน / deal</div></div>
+      <div class="cg-cell"><div class="cg-num">15</div><div class="cg-lbl">Tasks / deal</div></div>
+      <div class="cg-cell"><div class="cg-num">5M</div><div class="cg-lbl">เป้า 5 ปี</div></div>
+    </div>
+    <div style="margin-top:40px;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,0.2);">HOMIEHOMIE · บ้านมือสอง</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" onclick="go(-1)">&#8592;</button>
+  <div class="nav-dots" id="dots"></div>
+  <div class="slide-num" id="snum">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">&#8594;</button>
+</div>
+
+<script>
+// ── SLIDE ENGINE ─────────────────────────────────────────────────────────────
+const TOTAL = 8;
+let cur = 0;
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dots = document.getElementById('dots');
+
+// build dots
+for(let i=0;i<TOTAL;i++){
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.onclick=()=>goTo(i);
+  dots.appendChild(d);
+}
+
+function goTo(n){
+  slides[cur].classList.remove('active'); slides[cur].classList.add('out');
+  setTimeout(()=>slides[cur].classList.remove('out'),500);
+  cur=n;
+  slides[cur].classList.add('active');
+  dots.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  document.getElementById('snum').textContent=`${cur+1} / ${TOTAL}`;
+  if(cur===6) buildTimeline();
+}
+function go(d){ goTo(Math.max(0,Math.min(TOTAL-1,cur+d))); }
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+// ── TIMELINE BUILDER ─────────────────────────────────────────────────────────
+const MTH=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const TW=32, SM=11, SY=2026, LW=110;
+const PCOLS={ sourcing:['rgba(43,63,107,0.12)','#253659'], design:['rgba(212,168,67,0.13)','#7A5C10'], construction:['rgba(139,69,19,0.1)','#6B2D08'], marketing:['rgba(44,74,62,0.1)','#1E3328'] };
+const PWEEKS={ sourcing:[1,8], design:[9,12], construction:[13,24], marketing:[25,32] };
+const PLABELS={ sourcing:'Sourcing', design:'Design & Planning', construction:'Construction', marketing:'Marketing & Close' };
+const TASKS=[
+  {ph:'sourcing',lane:'มีน+อร',cls:'tb-meen',text:'หาทรัพย์ + comp + persona',s:1,e:8},
+  {ph:'sourcing',lane:'มีน+อร → Brew',cls:'tb-shared',text:'Pitch เสนอ Brew',s:7,e:8},
+  {ph:'design',lane:'Brew + ฟ้า',cls:'tb-shared',text:'สำรวจ + วัดไซต์',s:9,e:9},
+  {ph:'design',lane:'Brew',cls:'tb-brew',text:'Design Concept W1',s:9,e:9},
+  {ph:'design',lane:'ฟ้า',cls:'tb-fa',text:'BOQ W2',s:10,e:10},
+  {ph:'design',lane:'Brew',cls:'tb-brew',text:'Revise Final W3',s:11,e:11},
+  {ph:'design',lane:'ฟ้า',cls:'tb-fa',text:'คุยช่าง W4',s:12,e:12},
+  {ph:'construction',lane:'ฟ้า',cls:'tb-fa',text:'Site management + จ่ายช่าง',s:13,e:24},
+  {ph:'construction',lane:'Brew',cls:'tb-brew',text:'ทำ content ระหว่างก่อสร้าง',s:13,e:24},
+  {ph:'construction',lane:'Brew + ฟ้า',cls:'tb-shared',text:'Site recheck กลาง',s:18,e:18},
+  {ph:'construction',lane:'Brew + ฟ้า',cls:'tb-shared',text:'Site recheck ก่อนเสร็จ',s:23,e:23},
+  {ph:'marketing',lane:'ฟ้า',cls:'tb-fa',text:'เตรียม + ถ่ายรูป/คลิป',s:25,e:26},
+  {ph:'marketing',lane:'Brew',cls:'tb-brew',text:'Content + ลง SNS',s:25,e:28},
+  {ph:'marketing',lane:'มีน+อร',cls:'tb-meen',text:'โพส Facebook + Marketplace',s:28,e:32},
+  {ph:'marketing',lane:'มีน+อร + Brew',cls:'tb-shared',text:'Customer deal + ปิดการขาย',s:30,e:32},
+];
+
+let tlBuilt=false;
+function buildTimeline(){
+  if(tlBuilt) return; tlBuilt=true;
+  const wrap=document.getElementById('tl-wrap');
+  const months=[];
+  let mm=SM-1,yy=SY;
+  for(let i=0;i<Math.ceil(TW/4);i++){months.push({l:MTH[mm],y:yy});mm++;if(mm>11){mm=0;yy++;}}
+
+  let html='<div class="tl-table">';
+
+  // month row
+  html+=`<div class="tl-months" style="grid-template-columns:${LW}px repeat(${TW},1fr)"><div></div>`;
+  months.forEach((m,i)=>{
+    const span=Math.min(4,TW-i*4); if(span<=0)return;
+    html+=`<div class="tl-month-cell" style="grid-column:span ${span}">เดือน${i+1} · ${m.l}</div>`;
+  });
+  html+='</div>';
+
+  // week row
+  html+=`<div class="tl-weeks" style="grid-template-columns:${LW}px repeat(${TW},1fr)"><div></div>`;
+  for(let w=1;w<=TW;w++) html+=`<div class="tl-wc">W${((w-1)%4)+1}</div>`;
+  html+='</div>';
+
+  // phase band
+  html+=`<div class="tl-phase-band" style="grid-template-columns:${LW}px repeat(${TW},1fr);display:grid;"><div></div>`;
+  ['sourcing','design','construction','marketing'].forEach(ph=>{
+    const pw=PWEEKS[ph]; const span=pw[1]-pw[0]+1;
+    const pc=PCOLS[ph];
+    html+=`<div class="tl-pb" style="grid-column:span ${span};background:${pc[0]};color:${pc[1]};">${PLABELS[ph]}</div>`;
+  });
+  html+='</div>';
+
+  // lanes
+  html+='<div class="tl-lanes">';
+  ['sourcing','design','construction','marketing'].forEach(ph=>{
+    const pt=TASKS.filter(t=>t.ph===ph); if(!pt.length) return;
+    const lanes={};
+    pt.forEach(t=>{ if(!lanes[t.lane])lanes[t.lane]=[]; lanes[t.lane].push(t); });
+    html+=`<div class="tl-group-hdr">${PLABELS[ph]}</div>`;
+    Object.entries(lanes).forEach(([lane,lt])=>{
+      const clr={'tb-brew':'#2C4A3E','tb-fa':'#7A3810','tb-meen':'#243458','tb-shared':'#C9963A'}[lt[0]?.cls]||'#888';
+      html+=`<div class="tl-lane-row" style="grid-template-columns:${LW}px repeat(${TW},1fr)">`;
+      html+=`<div class="tl-lbl"><div class="tl-lbl-dot" style="background:${clr}"></div>${lane}</div>`;
+      const cov={};
+      lt.forEach(t=>{ for(let w=t.s;w<=t.e;w++) if(!cov[w]) cov[w]={...t,isStart:w===t.s}; });
+      for(let w=1;w<=TW;w++){
+        const c=cov[w];
+        if(c&&c.isStart){
+          const span=c.e-c.s+1;
+          html+=`<div style="grid-column:span ${span};position:relative;min-height:30px;">
+            <div class="tl-bar ${c.cls}">${c.text}</div></div>`;
+        } else if(!c) html+='<div class="tl-cell"></div>';
+      }
+      html+='</div>';
+    });
+  });
+  html+='</div></div>';
+  wrap.innerHTML=html;
+}
+</script>
+</body>
+</html>
