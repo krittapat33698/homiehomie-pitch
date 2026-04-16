@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomiеHomie — Client Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Sarabun', sans-serif; background: #F0EDE8; color: #1A1A1A; }
+
+.page {
+  width: 794px;
+  min-height: 1123px;
+  background: #FFFFFF;
+  margin: 32px auto;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* ─── MONO ─── */
+.mono { font-family: 'IBM Plex Mono', monospace; }
+
+/* ─── PAGE 1 — WHO WE ARE ─── */
+.p1-bg {
+  position: absolute; top: 0; right: 0;
+  width: 340px; height: 100%;
+  background: #1A1A1A;
+}
+.p1-accent {
+  position: absolute; top: 0; right: 340px;
+  width: 6px; height: 100%;
+  background: #E8642A;
+}
+.p1-left {
+  position: relative; z-index: 2;
+  padding: 64px 48px 48px 52px;
+  width: 460px;
+}
+.p1-right {
+  position: absolute; top: 0; right: 0;
+  width: 340px; height: 100%;
+  z-index: 2;
+  padding: 64px 40px 48px 40px;
+  display: flex; flex-direction: column;
+}
+
+.brand-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em;
+  color: #E8642A; margin-bottom: 32px;
+  text-transform: uppercase;
+}
+.p1-headline {
+  font-size: 38px; font-weight: 600;
+  line-height: 1.15; color: #1A1A1A;
+  margin-bottom: 8px;
+}
+.p1-headline span { color: #E8642A; }
+.p1-sub {
+  font-size: 13px; color: #888; margin-bottom: 40px;
+  font-style: italic; line-height: 1.6;
+}
+.p1-divider {
+  width: 40px; height: 3px;
+  background: #E8642A; margin-bottom: 28px;
+}
+.p1-body {
+  font-size: 14px; line-height: 1.8;
+  color: #444; margin-bottom: 32px;
+}
+.p1-body strong { color: #1A1A1A; font-weight: 600; }
+
+.credential-list { list-style: none; }
+.credential-list li {
+  font-size: 13px; color: #555;
+  padding: 6px 0; border-bottom: 1px solid #F0EDE8;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.credential-list li::before {
+  content: '▸'; color: #E8642A;
+  font-size: 10px; margin-top: 3px; flex-shrink: 0;
+}
+
+/* right side */
+.p1-right-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; letter-spacing: 0.15em;
+  color: #666; text-transform: uppercase; margin-bottom: 24px;
+}
+.diff-item {
+  margin-bottom: 28px;
+}
+.diff-title {
+  font-size: 13px; font-weight: 600;
+  color: #FFFFFF; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.diff-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #E8642A; flex-shrink: 0;
+}
+.diff-body {
+  font-size: 12px; color: #999; line-height: 1.7;
+  padding-left: 14px;
+}
+
+.p1-quote {
+  margin-top: auto;
+  border-left: 2px solid #E8642A;
+  padding-left: 16px;
+}
+.p1-quote-text {
+  font-size: 13px; color: #CCC;
+  line-height: 1.7; font-style: italic;
+}
+.p1-quote-source {
+  font-size: 11px; color: #666;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* page number */
+.pg-num {
+  position: absolute; bottom: 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; color: #BBB;
+  letter-spacing: 0.1em;
+}
+.pg-num-light { right: 52px; }
+.pg-num-dark { right: 40px; color: #555; z-index: 3; }
+
+/* ─── PAGE 2 — WHAT YOU GET ─── */
+.p2 { padding: 56px 52px; }
+.section-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em;
+  color: #E8642A; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title {
+  font-size: 28px; font-weight: 600;
+  color: #1A1A1A; margin-bottom: 6px; line-height: 1.2;
+}
+.section-sub {
+  font-size: 13px; color: #888;
+  margin-bottom: 36px; line-height: 1.6;
+}
+
+.deliverable-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-bottom: 32px;
+}
+.d-card {
+  border: 1px solid #EEEBE6;
+  border-radius: 8px; padding: 20px;
+  position: relative; overflow: hidden;
+}
+.d-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: #E8642A;
+}
+.d-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; color: #CCC;
+  margin-bottom: 10px;
+}
+.d-title {
+  font-size: 15px; font-weight: 600;
+  color: #1A1A1A; margin-bottom: 6px;
+}
+.d-desc { font-size: 12px; color: #777; line-height: 1.65; }
+.d-value {
+  margin-top: 12px; display: inline-block;
+  background: #FDF1EB; color: #E8642A;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.d-card-full {
+  border: 1px solid #EEEBE6; border-radius: 8px;
+  padding: 20px; grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 20px;
+}
+.d-card-full::before { display: none; }
+.d-card-full-left { flex: 1; }
+.d-card-full-right {
+  background: #FDF1EB; border-radius: 6px;
+  padding: 14px 20px; text-align: center; flex-shrink: 0;
+}
+.d-full-big {
+  font-size: 22px; font-weight: 600;
+  color: #E8642A; font-family: 'IBM Plex Mono', monospace;
+}
+.d-full-label { font-size: 11px; color: #B07050; margin-top: 2px; }
+
+.value-summary {
+  background: #1A1A1A; border-radius: 8px;
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 24px;
+}
+.vs-left { flex: 1; }
+.vs-label { font-size: 12px; color: #888; margin-bottom: 4px; }
+.vs-amount {
+  font-size: 24px; font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace; color: #FFF;
+}
+.vs-note { font-size: 11px; color: #666; margin-top: 4px; }
+.vs-divider { width: 1px; height: 50px; background: #333; }
+.vs-right { flex: 1; }
+.vs-included {
+  font-size: 13px; color: #E8642A;
+  font-weight: 600; margin-bottom: 4px;
+}
+.vs-included-sub { font-size: 12px; color: #888; line-height: 1.6; }
+
+/* ─── PAGE 3 — HOW IT WORKS + SCOPE ─── */
+.p3 { padding: 56px 52px; }
+
+.process-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-bottom: 40px; position: relative;
+}
+.process-steps::before {
+  content: '';
+  position: absolute; top: 20px; left: 60px; right: 60px;
+  height: 1px; background: #EEEBE6; z-index: 0;
+}
+.step { text-align: center; position: relative; z-index: 1; }
+.step-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #1A1A1A; color: #FFF;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+}
+.step-num.active { background: #E8642A; }
+.step-title { font-size: 13px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
+.step-sub { font-size: 11px; color: #999; line-height: 1.5; }
+.step-time {
+  margin-top: 8px; font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #E8642A;
+}
+
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.scope-box { border-radius: 8px; padding: 20px; }
+.scope-box.included {
+  background: #F6FAF7;
+  border: 1px solid #C8E0CE;
+}
+.scope-box.excluded {
+  background: #FDF8F6;
+  border: 1px solid #F0D5C8;
+}
+.scope-box-title {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.scope-box.included .scope-box-title { color: #2D7D46; }
+.scope-box.excluded .scope-box-title { color: #C0392B; }
+.scope-dot-green {
+  width: 8px; height: 8px; border-radius: 50%; background: #2D7D46;
+}
+.scope-dot-red {
+  width: 8px; height: 8px; border-radius: 50%; background: #C0392B;
+}
+.scope-item {
+  font-size: 13px; color: #444;
+  padding: 5px 0; display: flex; gap: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  line-height: 1.5;
+}
+.scope-item:last-child { border-bottom: none; }
+.scope-check { font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+.scope-box.included .scope-check { color: #2D7D46; }
+.scope-box.excluded .scope-check { color: #C0392B; }
+
+.scope-note {
+  margin-top: 16px; padding: 14px 16px;
+  background: #FFFBF5; border: 1px solid #F5D5A8;
+  border-radius: 6px; border-left: 3px solid #E8642A;
+}
+.scope-note-text { font-size: 12px; color: #8A5520; line-height: 1.65; }
+
+/* ─── PAGE 4 — BUDGET REALITY + TERMS ─── */
+.p4 { padding: 56px 52px; }
+
+.budget-explainer {
+  background: #1A1A1A; border-radius: 10px;
+  padding: 28px 32px; margin-bottom: 28px;
+}
+.be-title {
+  font-size: 16px; font-weight: 600;
+  color: #FFF; margin-bottom: 20px;
+}
+.be-row {
+  display: flex; gap: 16px; margin-bottom: 12px;
+  align-items: flex-start;
+}
+.be-icon {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: #2A2A2A; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+  font-size: 14px;
+}
+.be-content { flex: 1; }
+.be-label { font-size: 12px; color: #999; margin-bottom: 2px; }
+.be-value { font-size: 13px; color: #EEE; line-height: 1.55; }
+
+.range-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-top: 20px;
+}
+.range-item {
+  background: #232323; border-radius: 6px;
+  padding: 14px; text-align: center;
+}
+.range-label {
+  font-size: 10px; color: #777;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.range-amount {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 15px; font-weight: 500;
+}
+.range-item.low .range-amount { color: #7EC8A0; }
+.range-item.mid .range-amount { color: #E8A87C; }
+.range-item.high .range-amount { color: #E87C7C; }
+.range-note { font-size: 10px; color: #666; margin-top: 4px; }
+
+.terms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.term-item {
+  background: #FAFAFA; border: 1px solid #EEEBE6;
+  border-radius: 6px; padding: 14px 16px;
+}
+.term-label {
+  font-size: 10px; color: #E8642A;
+  font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.term-value { font-size: 13px; color: #333; line-height: 1.6; }
+
+.final-box {
+  background: #E8642A; border-radius: 8px;
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 20px;
+}
+.fb-left { flex: 1; }
+.fb-title { font-size: 16px; font-weight: 600; color: #FFF; margin-bottom: 4px; }
+.fb-sub { font-size: 12px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+.fb-contact {
+  background: rgba(0,0,0,0.2); border-radius: 6px;
+  padding: 10px 16px; flex-shrink: 0;
+}
+.fb-contact-label { font-size: 10px; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+.fb-contact-value {
+  font-size: 13px; color: #FFF; font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+@media print {
+  body { background: white; }
+  .page { margin: 0; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1 — WHO WE ARE
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="p1-accent"></div>
+  <div class="p1-bg"></div>
+
+  <div class="p1-left">
+    <div class="brand-tag">HomiеHomie — Client Kit</div>
+    <div class="p1-headline">บ้านมือสอง<br>ที่<span>ผ่านมือ</span><br>สถาปนิก</div>
+    <div class="p1-sub">ซื้อบ้านหลังนี้ คุณได้สถาปนิกมาด้วย</div>
+    <div class="p1-divider"></div>
+    <div class="p1-body">
+      HomiеHomie คือโปรเจกต์ที่ <strong>Brew</strong> สถาปนิกวิชาชีพ
+      คัดทรัพย์ ประเมินโครงสร้าง และช่วยวางแผนรีโนเวท
+      ให้คุณก่อนที่คุณจะควักเงินซักบาท
+    </div>
+    <ul class="credential-list">
+      <li>สถาปนิกวิชาชีพ ใบอนุญาต สถ. (ออกแบบได้ตามกฎหมาย)</li>
+      <li>ประสบการณ์ออกแบบและรีโนเวทอสังหาฯ โดยตรง</li>
+      <li>เชี่ยวชาญ townhome หมู่บ้านเก่า style Tropical Reset</li>
+      <li>ทีมงาน 3 คน — PM / BOQ / Sourcing พร้อมดูแล</li>
+    </ul>
+  </div>
+
+  <div class="p1-right">
+    <div class="p1-right-label">HomiеHomie ต่างจากใคร</div>
+
+    <div class="diff-item">
+      <div class="diff-title"><div class="diff-dot"></div>ต่างจากนายหน้าทั่วไป</div>
+      <div class="diff-body">นายหน้าขายบ้านแล้วจบ คุณต้องคิดต่อเอง HomiеHomie อยู่กับคุณจนรู้ว่าบ้านจะออกมาหน้าตาแบบไหน</div>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-title"><div class="diff-dot"></div>ต่างจากบ้านมือสองทั่วไป</div>
+      <div class="diff-body">บ้านมือสองส่วนใหญ่คุณต้องจ้างสถาปนิกเองราคา 40–80K+ ที่นี่รวมอยู่ในราคาแล้ว</div>
+    </div>
+
+    <div class="diff-item">
+      <div class="diff-title"><div class="diff-dot"></div>ต่างจากจ้าง contractor</div>
+      <div class="diff-body">Contractor เสนอราคาแล้วทำ แต่ไม่ได้ออกแบบให้ตรง lifestyle คุณ HomiеHomie ออกแบบก่อน แล้วค่อยให้คุณเอาไปคุยช่าง</div>
+    </div>
+
+    <div class="p1-quote">
+      <div class="p1-quote-text">"คนไม่ได้จ่ายเงินซื้อสถาปนิก — คนจ่ายเงินซื้อความมั่นใจว่าจะไม่เจอปัญหา"</div>
+      <div class="p1-quote-source">— HomiеHomie positioning</div>
+    </div>
+  </div>
+
+  <div class="pg-num pg-num-light">01 / 04</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2 — WHAT YOU GET
+════════════════════════════════════════════ -->
+<div class="page">
+<div class="p2">
+  <div class="section-eyebrow">Service Package</div>
+  <div class="section-title">ซื้อบ้านหลังนี้ คุณได้อะไรบ้าง</div>
+  <div class="section-sub">Mini Architect Consult รวมอยู่ในราคาขายแล้ว ไม่มีค่าใช้จ่ายเพิ่ม</div>
+
+  <div class="deliverable-grid">
+    <div class="d-card">
+      <div class="d-num">01</div>
+      <div class="d-title">Design Brief Session</div>
+      <div class="d-desc">นัดคุย 1 ครั้ง ~60 นาที Brew นั่งฟัง lifestyle ความต้องการ และ priority ของคุณก่อนเริ่มออกแบบ</div>
+      <div class="d-value">มูลค่า ~5,000–10,000฿</div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-num">02</div>
+      <div class="d-title">Concept Layout Plan</div>
+      <div class="d-desc">แปลนจัดห้องใหม่ 1 option ออกแบบตาม brief ที่คุยกัน บอกได้เลยว่าผนังเปิดได้ไหม ห้องปรับได้แค่ไหน</div>
+      <div class="d-value">มูลค่า ~15,000–25,000฿</div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-num">03</div>
+      <div class="d-title">3D Perspective</div>
+      <div class="d-desc">ภาพ 3D จำลอง 2 มุมหลักตาม priority ห้องที่คุณเลือก เห็นบรรยากาศจริงก่อนสั่งช่างทำ</div>
+      <div class="d-value">มูลค่า ~10,000–20,000฿</div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-num">04</div>
+      <div class="d-title">Revision 1 ครั้ง</div>
+      <div class="d-desc">หลัง present แบบครั้งแรก ปรับแก้ได้ 1 รอบตาม feedback เพื่อให้ได้ผลลัพธ์ที่ตรงใจจริงๆ</div>
+      <div class="d-value">รวมอยู่ใน package</div>
+    </div>
+
+    <div class="d-card-full">
+      <div class="d-card-full-left">
+        <div class="d-num">05</div>
+        <div class="d-title">BOQ เบื้องต้น (Budget Estimate)</div>
+        <div class="d-desc">รายการวัสดุ + ราคาประมาณการณ์แบบละเอียด เอาไปคุยช่างได้ทันที รู้ก่อนว่างบที่มีพอรีโนเวทแบบไหน ไม่ตกใจทีหลัง</div>
+      </div>
+      <div class="d-card-full-right">
+        <div class="d-full-big">~15,000฿</div>
+        <div class="d-full-label">ถ้าจ้างทำแยก</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="value-summary">
+    <div class="vs-left">
+      <div class="vs-label">ถ้าจ้างสถาปนิกทำทุกอย่างเองข้างนอก</div>
+      <div class="vs-amount">45,000–80,000฿</div>
+      <div class="vs-note">ยังไม่รวมค่าที่ปรึกษาและ revision เพิ่ม</div>
+    </div>
+    <div class="vs-divider"></div>
+    <div class="vs-right">
+      <div class="vs-included">รวมอยู่ในราคาบ้านแล้ว</div>
+      <div class="vs-included-sub">ซื้อบ้านหลังนี้ในราคา 3.39M<br>ได้ทั้งบ้าน + architect package ครบชุด</div>
+    </div>
+  </div>
+</div>
+<div class="pg-num pg-num-light">02 / 04</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3 — HOW IT WORKS + SCOPE
+════════════════════════════════════════════ -->
+<div class="page">
+<div class="p3">
+  <div class="section-eyebrow">Process & Scope</div>
+  <div class="section-title">ขั้นตอนการทำงาน</div>
+  <div class="section-sub">หลังโอนกรรมสิทธิ์ — ทีม HomiеHomie เริ่มได้ทันที</div>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num active">01</div>
+      <div class="step-title">Brief</div>
+      <div class="step-sub">นัดคุย lifestyle + ความต้องการ + งบ</div>
+      <div class="step-time">วันที่ 1–3</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Design</div>
+      <div class="step-sub">ทำ Layout + 3D + BOQ ตาม brief</div>
+      <div class="step-time">วันที่ 4–14</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Present</div>
+      <div class="step-sub">นัด present แบบ รับ feedback</div>
+      <div class="step-time">วันที่ 15–17</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Deliver</div>
+      <div class="step-sub">ส่งไฟล์ครบ พร้อมเอาไปใช้งานจริง</div>
+      <div class="step-time">วันที่ 18–21</div>
+    </div>
+  </div>
+
+  <div class="section-eyebrow" style="margin-bottom:12px;">Scope ที่ชัดเจน</div>
+  <div class="scope-grid">
+    <div class="scope-box included">
+      <div class="scope-box-title">
+        <div class="scope-dot-green"></div>
+        สิ่งที่รวมอยู่แล้ว
+      </div>
+      <div class="scope-item"><span class="scope-check">✓</span>Design Brief Session 1 ครั้ง</div>
+      <div class="scope-item"><span class="scope-check">✓</span>Concept Layout 1 option</div>
+      <div class="scope-item"><span class="scope-check">✓</span>3D Perspective 2 มุมหลัก</div>
+      <div class="scope-item"><span class="scope-check">✓</span>BOQ ประมาณการณ์เบื้องต้น</div>
+      <div class="scope-item"><span class="scope-check">✓</span>Revision 1 ครั้งหลัง present</div>
+      <div class="scope-item"><span class="scope-check">✓</span>ไฟล์ PDF สรุปทั้งหมด</div>
+    </div>
+
+    <div class="scope-box excluded">
+      <div class="scope-box-title">
+        <div class="scope-dot-red"></div>
+        สิ่งที่ไม่รวม
+      </div>
+      <div class="scope-item"><span class="scope-check">✕</span>แบบก่อสร้างละเอียด (Construction Drawing)</div>
+      <div class="scope-item"><span class="scope-check">✕</span>การควบคุมงานก่อสร้าง</div>
+      <div class="scope-item"><span class="scope-check">✕</span>ราคาผู้รับเหมาจริง (BOQ final)</div>
+      <div class="scope-item"><span class="scope-check">✕</span>Revision รอบที่ 2 เป็นต้นไป</div>
+      <div class="scope-item"><span class="scope-check">✕</span>งานระบบ MEP ละเอียด</div>
+      <div class="scope-item"><span class="scope-check">✕</span>การจัดหาหรือแนะนำผู้รับเหมา</div>
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <div class="scope-note-text">
+      <strong>หมายเหตุสำคัญ:</strong> HomiеHomie รับผิดชอบงานออกแบบและเอกสารทั้งหมดข้างต้น
+      การก่อสร้างจริงเป็นความรับผิดชอบของเจ้าของบ้านและผู้รับเหมาที่เจ้าของบ้านเลือกเอง
+      ผลลัพธ์ของงานก่อสร้างจึงไม่อยู่ใน scope ของ HomiеHomie
+      หากต้องการ revision เพิ่มเติม หรือบริการอื่นนอกเหนือจากนี้ คิดค่าบริการเพิ่มตามตกลง
+    </div>
+  </div>
+</div>
+<div class="pg-num pg-num-light">03 / 04</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4 — BUDGET REALITY + TERMS
+════════════════════════════════════════════ -->
+<div class="page">
+<div class="p4">
+  <div class="section-eyebrow">Budget Reality</div>
+  <div class="section-title">เรื่องงบรีโนเวท — พูดตรงๆ</div>
+  <div class="section-sub" style="margin-bottom:20px;">HomiеHomie เชื่อว่าการบอกความจริงตั้งแต่ต้นดีกว่าให้คุณตกใจทีหลัง</div>
+
+  <div class="budget-explainer">
+    <div class="be-title">BOQ ที่ได้รับคืออะไร — และไม่ใช่อะไร</div>
+    <div class="be-row">
+      <div class="be-icon">📋</div>
+      <div class="be-content">
+        <div class="be-label">BOQ คือ</div>
+        <div class="be-value">ประมาณการณ์ราคาวัสดุและแรงงานตามแบบที่ออกไว้ ใช้เป็น guideline วางงบและคุยกับช่าง</div>
+      </div>
+    </div>
+    <div class="be-row">
+      <div class="be-icon">⚠️</div>
+      <div class="be-content">
+        <div class="be-label">BOQ ไม่ใช่</div>
+        <div class="be-value">ราคาจบที่การันตีได้ ราคาจริงขึ้นกับช่างที่คุณเลือก วัสดุ grade ที่เลือก และสภาพหน้างานจริง</div>
+      </div>
+    </div>
+    <div class="be-row" style="margin-bottom:0;">
+      <div class="be-icon">📅</div>
+      <div class="be-content">
+        <div class="be-label">อายุของ BOQ</div>
+        <div class="be-value">ราคาวัสดุในตลาดเปลี่ยนได้ทุก 1–3 เดือน BOQ ที่ได้รับ valid 60 วันนับจากวันที่ระบุในเอกสาร</div>
+      </div>
+    </div>
+
+    <div class="range-row">
+      <div class="range-item low">
+        <div class="range-label">Minimal touch</div>
+        <div class="range-amount">150–300K</div>
+        <div class="range-note">สี + พื้น + ห้องน้ำ</div>
+      </div>
+      <div class="range-item mid">
+        <div class="range-label">Standard reno</div>
+        <div class="range-amount">300–600K</div>
+        <div class="range-note">ครัว + ระบบ + design</div>
+      </div>
+      <div class="range-item high">
+        <div class="range-label">Full transform</div>
+        <div class="range-amount">600K–1M+</div>
+        <div class="range-note">ปรับโครงสร้าง + ทั้งหลัง</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-eyebrow" style="margin-bottom:12px;">Terms & Conditions</div>
+  <div class="terms-grid">
+    <div class="term-item">
+      <div class="term-label">Revision</div>
+      <div class="term-value">1 ครั้งหลัง present ครั้งแรก Revision เพิ่มคิดค่าบริการตามตกลง</div>
+    </div>
+    <div class="term-item">
+      <div class="term-label">Feedback deadline</div>
+      <div class="term-value">ส่ง feedback ภายใน 7 วันหลังรับงาน หากเกินถือว่า approve และ scope จบ</div>
+    </div>
+    <div class="term-item">
+      <div class="term-label">ช่องทางสื่อสาร</div>
+      <div class="term-value">Feedback และการเปลี่ยนแปลงทุกอย่างต้องส่งผ่าน Line เป็นลายลักษณ์อักษรเท่านั้น</div>
+    </div>
+    <div class="term-item">
+      <div class="term-label">เริ่ม consult</div>
+      <div class="term-value">หลังโอนกรรมสิทธิ์เรียบร้อยแล้วเท่านั้น ไม่รับ brief ก่อนโอน</div>
+    </div>
+    <div class="term-item">
+      <div class="term-label">BOQ validity</div>
+      <div class="term-value">ราคาใน BOQ valid 60 วัน นับจากวันที่ระบุ ราคาหลังจากนั้นอาจเปลี่ยน</div>
+    </div>
+    <div class="term-item">
+      <div class="term-label">Contingency</div>
+      <div class="term-value">แนะนำบวกเพิ่ม 15% จากยอด BOQ เสมอ เพื่อรองรับราคาหน้างานจริง</div>
+    </div>
+  </div>
+
+  <div class="final-box">
+    <div class="fb-left">
+      <div class="fb-title">พร้อมเริ่มต้นแล้วใช่ไหม?</div>
+      <div class="fb-sub">ทักมาคุยก่อนได้เลย ไม่มีขั้นตอนยุ่งยาก<br>แค่บอกว่าสนใจ เราจัดนัด showing ให้ทันที</div>
+    </div>
+    <div class="fb-contact">
+      <div class="fb-contact-label">Line / โทร</div>
+      <div class="fb-contact-value">@homiehomie</div>
+    </div>
+  </div>
+</div>
+<div class="pg-num pg-num-light">04 / 04</div>
+</div>
+
+</body>
+</html>
