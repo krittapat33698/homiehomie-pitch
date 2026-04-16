@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomiеHomie — 5Y Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f0e;
+    --surface: #161917;
+    --surface2: #1e2220;
+    --border: #2a2e2b;
+    --accent: #e8a045;
+    --accent2: #5ec47a;
+    --accent3: #5b9cf6;
+    --accent4: #e05c5c;
+    --text: #e8ebe9;
+    --muted: #7a8a7d;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Sarabun', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 28px 32px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .tagline {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 32px;
+    display: none;
+  }
+  .content.active { display: block; }
+
+  /* ===================== TAB 1: 5Y OVERVIEW ===================== */
+  .year-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .year-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .year-card:hover { border-color: #3a4038; }
+
+  .year-header {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    padding: 16px 20px;
+    gap: 16px;
+    cursor: pointer;
+  }
+  .year-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .year-label span {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+  .year-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .year-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .year-earn {
+    text-align: right;
+  }
+  .year-earn .amount {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .year-earn .cumulative {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .year-body {
+    border-top: 1px solid var(--border);
+    padding: 16px 20px;
+    display: none;
+  }
+  .year-body.open { display: block; }
+
+  .deal-row {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .deal-row:last-child { border-bottom: none; }
+
+  .deal-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .m1 { background: rgba(232,160,69,0.15); color: var(--accent); }
+  .m2 { background: rgba(94,196,122,0.15); color: var(--accent2); }
+  .m3 { background: rgba(91,156,246,0.15); color: var(--accent3); }
+
+  .deal-name { font-weight: 600; font-size: 13px; margin-bottom: 3px; }
+  .deal-meta { font-size: 12px; color: var(--muted); }
+  .deal-earn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .deal-earn small {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* Progress bar */
+  .progress-section {
+    margin-bottom: 32px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-label span:last-child {
+    font-family: var(--mono);
+    color: var(--accent2);
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+
+  /* Summary boxes */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .summary-box .s-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+  .summary-box .s-val {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .summary-box .s-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* Critical gates */
+  .gates-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .section-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .gate-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .gate-item:last-child { border-bottom: none; }
+  .gate-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .gate-dot.red { background: var(--accent4); }
+  .gate-dot.orange { background: var(--accent); }
+  .gate-dot.green { background: var(--accent2); }
+  .gate-text { font-size: 13px; }
+  .gate-text strong { color: var(--accent); }
+
+  /* ===================== TAB 2: P1 SCENARIOS ===================== */
+  .part-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+    width: fit-content;
+  }
+  .part-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .part-btn.active {
+    background: var(--accent);
+    color: #0e0f0e;
+    font-weight: 700;
+  }
+
+  .part-content { display: none; }
+  .part-content.active { display: block; }
+
+  /* Deal summary card */
+  .deal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .deal-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .deal-card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .financials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .fin-cell {
+    background: var(--surface2);
+    padding: 14px 16px;
+  }
+  .fin-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .fin-val {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .fin-val.buy { color: var(--accent4); }
+  .fin-val.reno { color: var(--accent); }
+  .fin-val.sell { color: var(--accent2); }
+  .fin-val.margin { color: var(--accent2); }
+  .fin-val.brew { color: var(--accent); }
+
+  /* Scenarios */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .scenario-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .scenario-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .bear .scenario-label { color: var(--accent4); }
+  .base .scenario-label { color: var(--accent); }
+  .bull .scenario-label { color: var(--accent2); }
+  .scenario-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .scenario-row:last-child { border-bottom: none; }
+  .scenario-row .key { color: var(--muted); }
+  .scenario-row .val { font-family: var(--mono); font-weight: 600; }
+
+  /* CALCULATOR — Part B */
+  .calc-wrapper {
+    max-width: 680px;
+  }
+  .input-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .input-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+  .input-group input, .input-group select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-group input:focus, .input-group select:focus {
+    border-color: var(--accent);
+  }
+  .input-group select option { background: var(--surface2); }
+
+  .slider-group {
+    margin-bottom: 12px;
+  }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .slider-group label span {
+    font-family: var(--mono);
+    color: var(--accent);
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .result-cell {
+    background: var(--surface2);
+    padding: 14px 16px;
+  }
+  .result-label { font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+  .result-val {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .result-val.target-sell { color: var(--accent2); font-size: 22px; }
+  .result-val.brew-get { color: var(--accent); }
+
+  .verdict-bar {
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .verdict-go { background: rgba(94,196,122,0.1); border: 1px solid rgba(94,196,122,0.3); color: var(--accent2); }
+  .verdict-warn { background: rgba(232,160,69,0.1); border: 1px solid rgba(232,160,69,0.3); color: var(--accent); }
+  .verdict-stop { background: rgba(224,92,92,0.1); border: 1px solid rgba(224,92,92,0.3); color: var(--accent4); }
+
+  .sensitivity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  .sensitivity-table th {
+    background: var(--surface2);
+    padding: 8px 12px;
+    text-align: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .sensitivity-table td {
+    padding: 7px 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+  }
+  .sensitivity-table .row-header {
+    background: var(--surface2);
+    color: var(--muted);
+    font-weight: 700;
+    text-align: left;
+  }
+  .cell-good { background: rgba(94,196,122,0.12); color: var(--accent2); font-weight: 700; }
+  .cell-ok { background: rgba(232,160,69,0.12); color: var(--accent); font-weight: 600; }
+  .cell-bad { background: rgba(224,92,92,0.12); color: var(--accent4); }
+
+  .chevron {
+    transition: transform 0.3s;
+    display: inline-block;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  @media (max-width: 640px) {
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .financials-grid { grid-template-columns: 1fr 1fr; }
+    .scenario-grid { grid-template-columns: 1fr; }
+    .input-grid { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">HomiеHomie</div>
+    <div class="tagline">บ้านรีโนเวทมือสอง · 5-Year Roadmap</div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview')">5-Year Overview</button>
+    <button class="tab-btn" onclick="switchTab('p1')">P1 — เสนา 125 Scenarios</button>
+  </div>
+</div>
+
+<!-- ==================== TAB 1: OVERVIEW ==================== -->
+<div id="tab-overview" class="content active">
+
+  <div class="summary-grid">
+    <div class="summary-box">
+      <div class="s-label">เป้า 5 ปี (เงินสด Brew)</div>
+      <div class="s-val">5.0M</div>
+      <div class="s-sub">เริ่ม พ.ค. 2026</div>
+    </div>
+    <div class="summary-box">
+      <div class="s-label">จำนวน deals รวม</div>
+      <div class="s-val">29+</div>
+      <div class="s-sub">M1×11 · M2×7 · M3×11</div>
+    </div>
+    <div class="summary-box">
+      <div class="s-label">Critical gate ปีที่ 2</div>
+      <div class="s-val">Bank</div>
+      <div class="s-sub">ถ้าไม่ได้ → 2.5–3M เท่านั้น</div>
+    </div>
+    <div class="summary-box">
+      <div class="s-label">Margin target</div>
+      <div class="s-val">≥15%</div>
+      <div class="s-sub">BOQ lock ก่อนเริ่มงานเสมอ</div>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-label">
+      <span>เส้นทาง 5 ปี — เงินสะสม Brew</span>
+      <span>เป้า 5,000,000 บาท</span>
+    </div>
+    <div style="position:relative; padding-bottom: 8px;">
+      <div style="display:flex; gap:8px; margin-bottom:4px;">
+        <div style="flex:0.395; height:8px; background:linear-gradient(90deg, var(--accent), rgba(232,160,69,0.4)); border-radius:4px 0 0 4px;"></div>
+        <div style="flex:1.1; height:8px; background:rgba(94,196,122,0.25); border-radius:0;"></div>
+        <div style="flex:1.5; height:8px; background:rgba(94,196,122,0.4); border-radius:0;"></div>
+        <div style="flex:1; height:8px; background:rgba(94,196,122,0.55); border-radius:0;"></div>
+        <div style="flex:2; height:8px; background:rgba(94,196,122,0.7); border-radius:0 4px 4px 0;"></div>
+      </div>
+      <div style="display:flex; gap:8px; font-size:10px; color:var(--muted); font-family:var(--mono);">
+        <div style="flex:0.395; text-align:center;">~395K</div>
+        <div style="flex:1.1; text-align:center;">~1.5M</div>
+        <div style="flex:1.5; text-align:center;">~3M</div>
+        <div style="flex:1; text-align:center;">~4M</div>
+        <div style="flex:2; text-align:center;">5M ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="year-grid" class="year-grid"></div>
+
+  <div class="gates-section">
+    <div class="section-title">Critical Gates</div>
+    <div class="gate-item">
+      <div class="gate-dot red"></div>
+      <div class="gate-text"><strong>กู้แบงค์ได้ปีที่ 2</strong> — ถ้าไม่ได้ volume ติดแค่ 2 deals/ปี เงินสะสมปีที่ 5 อยู่ที่ ~2.5–3M ไม่ถึงเป้า</div>
+    </div>
+    <div class="gate-item">
+      <div class="gate-dot orange"></div>
+      <div class="gate-text"><strong>Cycle ≤ 8 เดือน/deal</strong> — เสนา 125 เป็น test case สำคัญของทั้งระบบ</div>
+    </div>
+    <div class="gate-item">
+      <div class="gate-dot orange"></div>
+      <div class="gate-text"><strong>Margin ≥ 15% ทุก deal</strong> — BOQ ต้อง lock ก่อนเริ่มงานเสมอ ห้ามเริ่มโดยไม่มี BOQ</div>
+    </div>
+    <div class="gate-item">
+      <div class="gate-dot green"></div>
+      <div class="gate-text"><strong>Price point ≤ 4M</strong> — ได้สิทธิ์ลดค่าโอน + pool buyer กว้างสุด Gen Y อายุ 25–35</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== TAB 2: P1 SCENARIOS ==================== -->
+<div id="tab-p1" class="content">
+
+  <div class="part-tabs">
+    <button class="part-btn active" onclick="switchPart('partA')">Part A — เสนา 125</button>
+    <button class="part-btn" onclick="switchPart('partB')">Part B — ทาวน์เฮ้าส์ทางเลือก</button>
+  </div>
+
+  <!-- PART A -->
+  <div id="partA" class="part-content active">
+    <div class="deal-card">
+      <div class="deal-card-title">🏠 เสนา 125 — Senanikhom 1, Soi 125</div>
+      <div class="deal-card-sub">Model 1 · JV กับที่บ้าน · Brew ได้ 24% ของกำไรรวม · ไม่มีดอกเบี้ย ไม่มี reserve</div>
+
+      <div class="financials-grid">
+        <div class="fin-cell">
+          <div class="fin-label">ราคาซื้อเป้า</div>
+          <div class="fin-val buy">2,250,000</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">max buy price</div>
+        </div>
+        <div class="fin-cell">
+          <div class="fin-label">ค่ารีโนเวท (รวมหลังคา)</div>
+          <div class="fin-val reno">730K – 880K</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">+150K ถ้าต้องเปลี่ยนหลังคาเหล็ก</div>
+        </div>
+        <div class="fin-cell">
+          <div class="fin-label">ราคาขาย target</div>
+          <div class="fin-val sell">4,200,000</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">ค่าโอนเข้า ~56K</div>
+        </div>
+        <div class="fin-cell">
+          <div class="fin-label">Margin (worst case)</div>
+          <div class="fin-val margin">21.1%</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">รีโนเวท 880K</div>
+        </div>
+        <div class="fin-cell">
+          <div class="fin-label">Brew ได้ (est.)</div>
+          <div class="fin-val brew">213K – 225K</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">24% × กำไรรวม</div>
+        </div>
+        <div class="fin-cell">
+          <div class="fin-label">Cycle estimate</div>
+          <div class="fin-val" style="color:var(--accent3);">~6 เดือน</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">รีโนเวท 4 เดือน + ขาย 2 เดือน</div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-bottom:12px;">3 Scenarios</div>
+      <div class="scenario-grid">
+        <div class="scenario-card bear">
+          <div class="scenario-label">🐻 Bear</div>
+          <div class="scenario-row"><span class="key">ซื้อ</span><span class="val">2.25M</span></div>
+          <div class="scenario-row"><span class="key">รีโนเวท</span><span class="val">880K</span></div>
+          <div class="scenario-row"><span class="key">ขาย</span><span class="val">3.9M</span></div>
+          <div class="scenario-row"><span class="key">Margin</span><span class="val" style="color:var(--accent4);">14.0%</span></div>
+          <div class="scenario-row"><span class="key">Brew ได้</span><span class="val" style="color:var(--accent4);">~156K</span></div>
+          <div class="scenario-row"><span class="key">Cycle</span><span class="val">8 เดือน</span></div>
+        </div>
+        <div class="scenario-card base">
+          <div class="scenario-label">📊 Base</div>
+          <div class="scenario-row"><span class="key">ซื้อ</span><span class="val">2.25M</span></div>
+          <div class="scenario-row"><span class="key">รีโนเวท</span><span class="val">880K</span></div>
+          <div class="scenario-row"><span class="key">ขาย</span><span class="val">4.2M</span></div>
+          <div class="scenario-row"><span class="key">Margin</span><span class="val" style="color:var(--accent);">21.1%</span></div>
+          <div class="scenario-row"><span class="key">Brew ได้</span><span class="val" style="color:var(--accent);">~213K</span></div>
+          <div class="scenario-row"><span class="key">Cycle</span><span class="val">6 เดือน</span></div>
+        </div>
+        <div class="scenario-card bull">
+          <div class="scenario-label">🐂 Bull</div>
+          <div class="scenario-row"><span class="key">ซื้อ</span><span class="val">2.1M</span></div>
+          <div class="scenario-row"><span class="key">รีโนเวท</span><span class="val">730K</span></div>
+          <div class="scenario-row"><span class="key">ขาย</span><span class="val">4.2M</span></div>
+          <div class="scenario-row"><span class="key">Margin</span><span class="val" style="color:var(--accent2);">26.2%</span></div>
+          <div class="scenario-row"><span class="key">Brew ได้</span><span class="val" style="color:var(--accent2);">~325K</span></div>
+          <div class="scenario-row"><span class="key">Cycle</span><span class="val">5 เดือน</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART B: CALCULATOR -->
+  <div id="partB" class="part-content">
+    <div class="calc-wrapper">
+      <div style="margin-bottom:16px;">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px;">ทาวน์เฮ้าส์ทางเลือก — Back-Calculate</div>
+        <div style="font-size:12px;color:var(--muted);">กรอกราคาซื้อและต้นทุน แล้วดูว่าต้องขายเท่าไหร่ถึงได้ตามเป้า</div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title" style="margin-bottom:16px;">ข้อมูล Deal</div>
+        <div class="input-grid">
+          <div class="input-group">
+            <label>ราคาซื้อ (บาท)</label>
+            <input type="number" id="buy_price" value="2000000" step="50000" oninput="calculate()">
+          </div>
+          <div class="input-group">
+            <label>ค่าโอนเข้า (บาท)</label>
+            <input type="number" id="transfer_in" value="50000" step="5000" oninput="calculate()">
+          </div>
+          <div class="input-group">
+            <label>ค่ารีโนเวท (บาท)</label>
+            <input type="number" id="reno_cost" value="700000" step="50000" oninput="calculate()">
+          </div>
+          <div class="input-group">
+            <label>โครงสร้างดีล</label>
+            <select id="deal_type" onchange="calculate()">
+              <option value="jv">JV กับที่บ้าน (Brew 24%, ไม่มี reserve)</option>
+              <option value="solo">Solo deal (Brew 60%, หัก 15% reserve + ดอกเบี้ย 3%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <label>Margin target <span id="margin_val">20%</span></label>
+          <input type="range" id="margin_target" min="12" max="30" value="20" step="0.5" oninput="document.getElementById('margin_val').textContent=this.value+'%'; calculate()">
+        </div>
+        <div class="slider-group">
+          <label>ดอกเบี้ยแม่ (flat, solo deal เท่านั้น) <span id="interest_val">3%</span></label>
+          <input type="range" id="interest_rate" min="0" max="6" value="3" step="0.5" oninput="document.getElementById('interest_val').textContent=this.value+'%'; calculate()">
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="section-title" style="margin-bottom:16px;">ผลการคำนวณ</div>
+        <div class="result-grid">
+          <div class="result-cell">
+            <div class="result-label">ต้นทุนรวม</div>
+            <div class="result-val" id="total_cost" style="color:var(--accent4);">—</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label">ต้องขายอย่างน้อย</div>
+            <div class="result-val target-sell" id="min_sell">—</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label">Gross Profit</div>
+            <div class="result-val" id="gross_profit" style="color:var(--accent2);">—</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label">Brew ได้สุทธิ</div>
+            <div class="result-val brew-get" id="brew_net">—</div>
+          </div>
+        </div>
+
+        <div id="verdict" class="verdict-bar verdict-go" style="margin-bottom:16px;">
+          <span id="verdict-icon">✓</span>
+          <span id="verdict-text">GO — margin เกินเป้า ดีลนี้ทำได้</span>
+        </div>
+
+        <div class="section-title" style="margin-bottom:10px;">Sensitivity — ราคาขาย vs Brew ได้สุทธิ</div>
+        <table class="sensitivity-table" id="sens-table"></table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==================== DATA ====================
+const years = [
+  {
+    year: "Y1",
+    period: "พ.ค. 2026 – เม.ย. 2027",
+    title: "ปูทาง — 4 deals แรก",
+    subtitle: "ทดสอบระบบทีม · validate cycle · สะสมทุน",
+    brew: 395000,
+    cumulative: 395000,
+    deals: [
+      { model: "M1", name: "🏠 เสนา 125", meta: "ทาวน์โฮมรีโนเวท · JV กับที่บ้าน · ซื้อ 2.25M → ขาย 4.2M", earn: "~213–225K", earnRaw: 220000 },
+      { model: "M2", name: "🏡 คู้บอน ซ.27", meta: "as-is + Mini Architect Consult · ขาย 3.39M", earn: "~40K", earnRaw: 40000 },
+      { model: "M3", name: "🏢 City Ville เทพารักษ์", meta: "คอนโด <1M · ซื้อ ~370–500K → ขาย <1M", earn: "~35K+", earnRaw: 67000 },
+      { model: "M3", name: "🏢 คอนโด (หาทรัพย์ Q3)", meta: "คอนโด <1M · ซื้อ ส.ค.–ก.ย. ขาย Q4", earn: "~67K", earnRaw: 67000 },
+    ]
+  },
+  {
+    year: "Y2",
+    period: "2027",
+    title: "Scale — 5–6 deals · เริ่ม overlap",
+    subtitle: "ยื่นกู้แบงค์ · M1×2 + M2×1 + M3×2–3",
+    brew: 1105000,
+    cumulative: 1500000,
+    deals: [
+      { model: "M1", name: "🏠 ทาวน์โฮม รีโนเวท #1", meta: "กู้แม่ @ 3% flat · ซื้อ 1.7–2.5M → ขาย 3.1–4.2M", earn: "~150–280K", earnRaw: 215000 },
+      { model: "M1", name: "🏠 ทาวน์โฮม รีโนเวท #2", meta: "overlap deal แรก", earn: "~150–280K", earnRaw: 215000 },
+      { model: "M2", name: "🏡 as-is + Consult", meta: "ทุนน้อย · cycle 4 เดือน", earn: "~40K", earnRaw: 40000 },
+      { model: "M3", name: "🏢 คอนโด ×2–3 ห้อง", meta: "ทำคู่ขนาน bandwidth ไม่กระทบมาก", earn: "~35–67K/ห้อง", earnRaw: 150000 },
+    ]
+  },
+  {
+    year: "Y3",
+    period: "2028",
+    title: "Primary Income — 7–8 deals · overlap เต็มรูป",
+    subtitle: "HomiеHomie แซงงานหลัก · M1×2–3 + M2×2 + M3×3",
+    brew: 1500000,
+    cumulative: 3000000,
+    deals: [
+      { model: "M1", name: "🏠 ทาวน์โฮม รีโนเวท ×2–3", meta: "กู้แบงค์เต็มรูปแบบ · ทำพร้อมกันได้", earn: "~450–840K รวม", earnRaw: 645000 },
+      { model: "M2", name: "🏡 as-is + Consult ×2", meta: "passive margin · cycle สั้น", earn: "~80K รวม", earnRaw: 80000 },
+      { model: "M3", name: "🏢 คอนโด ×3 ห้อง", meta: "สายพาน volume", earn: "~200K รวม", earnRaw: 200000 },
+    ]
+  },
+  {
+    year: "Y4",
+    period: "2029",
+    title: "Systematize — 9 deals · ทีม execute อิสระ",
+    subtitle: "Brew ลด hands-on · M1×3 + M2×2 + M3×4",
+    brew: 1000000,
+    cumulative: 4000000,
+    deals: [
+      { model: "M1", name: "🏠 ทาวน์โฮม รีโนเวท ×3", meta: "ระบบ BOQ มาตรฐาน · ควบคุมต้นทุนได้แม่นขึ้น", earn: "~680K รวม", earnRaw: 680000 },
+      { model: "M2", name: "🏡 as-is + Consult ×2", meta: "", earn: "~80K รวม", earnRaw: 80000 },
+      { model: "M3", name: "🏢 คอนโด ×4 ห้อง", meta: "", earn: "~270K รวม", earnRaw: 270000 },
+    ]
+  },
+  {
+    year: "Y5",
+    period: "2030",
+    title: "Target Achieved — 10+ deals · 5M milestone",
+    subtitle: "M1×3 + M2×2 + M3×4–5 + high-margin deal ×1",
+    brew: 1000000,
+    cumulative: 5000000,
+    deals: [
+      { model: "M1", name: "🏠 ทาวน์โฮม รีโนเวท ×3", meta: "ทำ high-margin 25%+ ด้วยสัก 1–2 deal", earn: "~700K+ รวม", earnRaw: 700000 },
+      { model: "M2", name: "🏡 as-is + Consult ×2", meta: "", earn: "~80K รวม", earnRaw: 80000 },
+      { model: "M3", name: "🏢 คอนโด ×4–5 ห้อง", meta: "", earn: "~270–340K รวม", earnRaw: 310000 },
+    ]
+  }
+];
+
+function fmt(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+  if (n >= 1000) return Math.round(n/1000) + 'K';
+  return n.toLocaleString();
+}
+function fmtFull(n) { return n.toLocaleString('th-TH'); }
+
+// Render year cards
+const grid = document.getElementById('year-grid');
+years.forEach((y, i) => {
+  const card = document.createElement('div');
+  card.className = 'year-card';
+  card.innerHTML = `
+    <div class="year-header" onclick="toggleYear(${i})">
+      <div class="year-label">
+        <span>${y.year}</span>
+        ${y.period}
+      </div>
+      <div>
+        <div class="year-title">${y.title}</div>
+        <div class="year-subtitle">${y.subtitle}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="year-earn">
+          <div class="amount">+${fmt(y.brew)}</div>
+          <div class="cumulative">สะสม ${fmt(y.cumulative)}</div>
+        </div>
+        <span class="chevron" id="chev-${i}">▼</span>
+      </div>
+    </div>
+    <div class="year-body" id="body-${i}">
+      ${y.deals.map(d => `
+        <div class="deal-row">
+          <div class="deal-icon ${d.model.toLowerCase()}">${d.model.replace('M','')}</div>
+          <div>
+            <div class="deal-name">${d.name}</div>
+            <div class="deal-meta">${d.meta}</div>
+          </div>
+          <div class="deal-earn">${d.earn}<small>Brew</small></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+// Open Y1 by default
+document.getElementById('body-0').classList.add('open');
+document.getElementById('chev-0').classList.add('open');
+
+function toggleYear(i) {
+  const body = document.getElementById('body-'+i);
+  const chev = document.getElementById('chev-'+i);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+
+function switchPart(part) {
+  document.querySelectorAll('.part-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.part-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(part).classList.add('active');
+}
+
+// ==================== CALCULATOR ====================
+function calculate() {
+  const buy = parseFloat(document.getElementById('buy_price').value) || 0;
+  const transferIn = parseFloat(document.getElementById('transfer_in').value) || 0;
+  const reno = parseFloat(document.getElementById('reno_cost').value) || 0;
+  const marginTarget = parseFloat(document.getElementById('margin_target').value) / 100;
+  const dealType = document.getElementById('deal_type').value;
+  const interestRate = parseFloat(document.getElementById('interest_rate').value) / 100;
+
+  const totalCost = buy + transferIn + reno;
+
+  // interest on buy+reno (solo only)
+  const interest = dealType === 'solo' ? (buy + reno) * interestRate : 0;
+
+  // min sell = totalCost / (1 - margin)
+  const minSell = Math.ceil(totalCost / (1 - marginTarget));
+  const grossProfit = minSell - totalCost;
+
+  let brewNet;
+  if (dealType === 'jv') {
+    brewNet = grossProfit * 0.24;
+  } else {
+    const afterInterest = grossProfit - interest;
+    const reserve = afterInterest * 0.15;
+    brewNet = (afterInterest - reserve) * 0.60;
+  }
+
+  document.getElementById('total_cost').textContent = fmtFull(Math.round(totalCost));
+  document.getElementById('min_sell').textContent = fmtFull(minSell);
+  document.getElementById('gross_profit').textContent = fmtFull(Math.round(grossProfit));
+  document.getElementById('brew_net').textContent = fmtFull(Math.round(brewNet));
+
+  // Verdict
+  const actualMargin = grossProfit / minSell;
+  const verdict = document.getElementById('verdict');
+  const vIcon = document.getElementById('verdict-icon');
+  const vText = document.getElementById('verdict-text');
+
+  if (minSell > 4200000) {
+    verdict.className = 'verdict-bar verdict-stop';
+    vIcon.textContent = '✕';
+    vText.textContent = `STOP — ราคาขายที่ต้องได้ ${fmtFull(minSell)} เกิน 4.2M เกินตลาดเป้าหมาย`;
+  } else if (minSell > 3800000) {
+    verdict.className = 'verdict-bar verdict-warn';
+    vIcon.textContent = '⚠';
+    vText.textContent = `WARN — ราคาขายที่ต้องได้ ${fmtFull(minSell)} สูง ขายยากใน cycle 6 เดือน`;
+  } else {
+    verdict.className = 'verdict-bar verdict-go';
+    vIcon.textContent = '✓';
+    vText.textContent = `GO — ราคาขายที่ต้องได้ ${fmtFull(minSell)} อยู่ในช่วงที่ขายได้จริง`;
+  }
+
+  // Sensitivity table
+  const sellPrices = [3400000, 3600000, 3800000, 3900000, 4000000, 4200000, 4400000];
+  const renoOptions = [500000, 650000, 800000, 950000];
+
+  let tableHTML = '<tr><th>Reno ↓ / Sell →</th>';
+  sellPrices.forEach(s => {
+    tableHTML += `<th>${(s/1000000).toFixed(1)}M</th>`;
+  });
+  tableHTML += '</tr>';
+
+  renoOptions.forEach(r => {
+    tableHTML += `<tr><td class="row-header">${(r/1000).toFixed(0)}K</td>`;
+    sellPrices.forEach(s => {
+      const tc = buy + transferIn + r;
+      const gp = s - tc;
+      const m = gp / s;
+      let bn;
+      if (dealType === 'jv') {
+        bn = gp * 0.24;
+      } else {
+        const ai = gp - (buy + r) * interestRate;
+        bn = ai > 0 ? (ai * 0.85 * 0.60) : 0;
+      }
+      const mPct = (m * 100).toFixed(1);
+      const bnK = Math.round(bn / 1000);
+      let cls = '';
+      if (m >= 0.20) cls = 'cell-good';
+      else if (m >= 0.14) cls = 'cell-ok';
+      else cls = 'cell-bad';
+      tableHTML += `<td class="${cls}">${mPct}%<br><span style="font-size:10px;opacity:0.8;">${bnK}K</span></td>`;
+    });
+    tableHTML += '</tr>';
+  });
+
+  document.getElementById('sens-table').innerHTML = tableHTML;
+}
+
+// Init
+calculate();
+</script>
+</body>
+</html>
