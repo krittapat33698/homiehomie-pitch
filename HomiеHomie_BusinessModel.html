@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomiеHomie — Business Model Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8642A;
+    --orange-light: #FDF1EB;
+    --orange-mid: #F5A07A;
+    --dark: #1A1A1A;
+    --mid: #444444;
+    --muted: #888888;
+    --border: #E5E5E5;
+    --bg: #FAFAFA;
+    --white: #FFFFFF;
+    --green: #2D7D46;
+    --green-light: #EBF5EE;
+    --red: #C0392B;
+    --red-light: #FDF0EF;
+    --amber: #B8620A;
+    --amber-light: #FEF6EC;
+    --blue: #1A5FA8;
+    --blue-light: #EBF3FD;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'IBM Plex Sans Thai', sans-serif; background: var(--bg); color: var(--dark); font-size: 14px; line-height: 1.6; }
+  
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 32px; }
+  
+  /* Header */
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--orange); }
+  .brand { font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500; color: var(--orange); letter-spacing: -0.5px; }
+  .brand-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .header-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); text-align: right; line-height: 1.8; }
+
+  /* Section */
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--orange); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* 2-col grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* Model cards */
+  .model-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .model-header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .model-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
+  .tag-a { background: var(--orange-light); color: var(--orange); }
+  .tag-b { background: var(--blue-light); color: var(--blue); }
+  .tag-c { background: var(--green-light); color: var(--green); }
+  .model-name { font-size: 16px; font-weight: 600; color: var(--dark); }
+  .model-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .model-body { padding: 16px 20px; }
+
+  .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--mid); }
+  .stat-value { font-weight: 500; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .val-green { color: var(--green); }
+  .val-orange { color: var(--orange); }
+  .val-blue { color: var(--blue); }
+
+  /* Vs divider */
+  .vs-divider { display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); padding: 8px 0; }
+
+  /* Risk table */
+  .risk-table { width: 100%; border-collapse: collapse; }
+  .risk-table th { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase; padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+  .risk-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+  .risk-table tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-high { background: var(--red-light); color: var(--red); }
+  .badge-mid { background: var(--amber-light); color: var(--amber); }
+  .badge-low { background: var(--green-light); color: var(--green); }
+  .risk-fix { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Timeline */
+  .timeline-grid { display: grid; grid-template-columns: 80px 1fr; gap: 0; }
+  .tl-year { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: var(--orange); padding: 12px 0; padding-right: 16px; text-align: right; border-right: 2px solid var(--orange-light); position: relative; }
+  .tl-year::after { content: ''; position: absolute; right: -5px; top: 16px; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+  .tl-content { padding: 10px 0 10px 20px; }
+  .tl-deals { font-size: 12px; font-weight: 600; color: var(--orange); margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
+  .tl-text { font-size: 13px; color: var(--mid); margin-bottom: 4px; }
+  .tl-target { font-size: 12px; color: var(--green); font-weight: 500; }
+  .tl-warning { font-size: 12px; color: var(--amber); }
+  .tl-divider { grid-column: 1 / -1; height: 8px; }
+
+  /* Milestone chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chip { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--border); color: var(--mid); }
+  .chip-orange { background: var(--orange-light); color: var(--orange); }
+  .chip-green { background: var(--green-light); color: var(--green); }
+  .chip-blue { background: var(--blue-light); color: var(--blue); }
+
+  /* Summary targets */
+  .target-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .target-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .target-year { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
+  .target-amount { font-size: 20px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; color: var(--dark); }
+  .target-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .target-card.highlight { border-color: var(--orange); background: var(--orange-light); }
+  .target-card.highlight .target-amount { color: var(--orange); }
+
+  /* Condition box */
+  .condition-box { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 12px; }
+  .condition-title { font-size: 11px; font-weight: 600; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .condition-item { font-size: 13px; color: var(--mid); padding: 3px 0; display: flex; gap: 8px; }
+  .condition-item::before { content: '→'; color: var(--orange); flex-shrink: 0; }
+
+  /* Bottleneck warning */
+  .warning-box { background: var(--red-light); border: 1px solid #F5C1C1; border-radius: 8px; padding: 14px 18px; margin-top: 12px; }
+  .warning-title { font-size: 12px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+  .warning-text { font-size: 13px; color: #7B2D2D; }
+
+  /* Footer */
+  .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .footer-date { font-size: 11px; color: var(--muted); }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="brand">HomiеHomie</div>
+      <div class="brand-sub">บ้านรีโนเวทมือสอง</div>
+    </div>
+    <div class="header-tag">
+      Business Model Summary<br>
+      3Y / 5Y Roadmap<br>
+      Apr 2026
+    </div>
+  </div>
+
+  <!-- 3 Models -->
+  <div class="section">
+    <div class="section-title">3 โมเดลหลัก</div>
+    <div class="grid-3">
+
+      <!-- Model A -->
+      <div class="model-card">
+        <div class="model-header">
+          <div class="model-tag tag-a">Model A</div>
+          <div class="model-name">Renovate & Sell</div>
+          <div class="model-sub">รีโนเวทเสร็จ → ขาย ready-to-move-in</div>
+        </div>
+        <div class="model-body">
+          <div class="stat-row"><span class="stat-label">ตัวอย่างทรัพย์</span><span class="stat-value val-orange">เสนา 125</span></div>
+          <div class="stat-row"><span class="stat-label">ราคาขาย target</span><span class="stat-value">4.2M</span></div>
+          <div class="stat-row"><span class="stat-label">ต้นทุนรวม</span><span class="stat-value">~3.16M</span></div>
+          <div class="stat-row"><span class="stat-label">กำไร gross (base)</span><span class="stat-value val-green">~1.04M</span></div>
+          <div class="stat-row"><span class="stat-label">Brew ได้ (24%)</span><span class="stat-value val-green">~249K</span></div>
+          <div class="stat-row"><span class="stat-label">Cycle time</span><span class="stat-value">6–8 เดือน</span></div>
+          <div class="stat-row"><span class="stat-label">Margin target</span><span class="stat-value val-orange">15–25%</span></div>
+          <div class="stat-row"><span class="stat-label">ความเสี่ยงหลัก</span><span class="stat-value">ทุนจม / ขายช้า</span></div>
+        </div>
+      </div>
+
+      <!-- Model B -->
+      <div class="model-card">
+        <div class="model-header">
+          <div class="model-tag tag-b">Model B</div>
+          <div class="model-name">As-is + Mini Consult</div>
+          <div class="model-sub">ขายตามสภาพ แถม architect consult package</div>
+        </div>
+        <div class="model-body">
+          <div class="stat-row"><span class="stat-label">ตัวอย่างทรัพย์</span><span class="stat-value val-blue">บ้านคู้บอน</span></div>
+          <div class="stat-row"><span class="stat-label">ราคาขาย</span><span class="stat-value">3.39M</span></div>
+          <div class="stat-row"><span class="stat-label">ต้นทุน (ไม่รีโนเวท)</span><span class="stat-value">~ต้นทุนซื้อ</span></div>
+          <div class="stat-row"><span class="stat-label">Consult มูลค่าตลาด</span><span class="stat-value val-blue">40–80K</span></div>
+          <div class="stat-row"><span class="stat-label">Cycle time</span><span class="stat-value val-green">~4 เดือน</span></div>
+          <div class="stat-row"><span class="stat-label">Margin target</span><span class="stat-value">ต่ำกว่า A แต่เร็วกว่า</span></div>
+          <div class="stat-row"><span class="stat-label">Consult scope</span><span class="stat-value">Layout + 3D + BOQ</span></div>
+          <div class="stat-row"><span class="stat-label">ความเสี่ยงหลัก</span><span class="stat-value">Scope creep / ช่างพัง</span></div>
+        </div>
+      </div>
+
+
+      <!-- Model C -->
+      <div class="model-card">
+        <div class="model-header">
+          <div class="model-tag tag-c">Model C</div>
+          <div class="model-name">Condo Flip</div>
+          <div class="model-sub">คอนโดบังคับคดี รีโนเวทเร็ว → ขาย &lt;1M</div>
+        </div>
+        <div class="model-body">
+          <div class="stat-row"><span class="stat-label">ตัวอย่างทรัพย์</span><span class="stat-value val-green">สายลม คอนโดทาวน์</span></div>
+          <div class="stat-row"><span class="stat-label">ราคาซื้อ</span><span class="stat-value">370,000</span></div>
+          <div class="stat-row"><span class="stat-label">ต้นทุนรวม (ซื้อ+โอน+ซ่อม)</span><span class="stat-value">~519,000</span></div>
+          <div class="stat-row"><span class="stat-label">ราคาขาย target</span><span class="stat-value">&lt;1M (target 690K)</span></div>
+          <div class="stat-row"><span class="stat-label">กำไร gross</span><span class="stat-value val-green">~163,000</span></div>
+          <div class="stat-row"><span class="stat-label">Brew ได้ (60%×85%)</span><span class="stat-value val-green">~83,000</span></div>
+          <div class="stat-row"><span class="stat-label">Cycle time</span><span class="stat-value val-green">~3 เดือน</span></div>
+          <div class="stat-row"><span class="stat-label">รีโนเวท</span><span class="stat-value">~21 วัน (งาน MEP+กระเบื้อง+สี)</span></div>
+          <div class="stat-row"><span class="stat-label">Margin</span><span class="stat-value val-green">~24%</span></div>
+          <div class="stat-row"><span class="stat-label">ความเสี่ยงหลัก</span><span class="stat-value">นิติบุคคล / ค่าส่วนกลางค้าง</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Key difference -->
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="condition-box">
+        <div class="condition-title">Model A เหมาะเมื่อ</div>
+        <div class="condition-item">ทรัพย์มี upside design ชัด (บันไดไม้ / พื้นที่สวน)</div>
+        <div class="condition-item">ตลาดนั้น buyer ไม่อยากรีโนเวทเอง</div>
+        <div class="condition-item">Brew มีเวลาคุมงานได้จริง</div>
+      </div>
+      <div class="condition-box" style="border-left-color: var(--blue);">
+        <div class="condition-title" style="color:var(--blue);">Model B เหมาะเมื่อ</div>
+        <div class="condition-item">อยากปิด deal เร็ว / ไม่อยากแบก capital</div>
+        <div class="condition-item">ทรัพย์ดีแต่ scope รีโนเวทใหญ่เกินไป</div>
+        <div class="condition-item">ต้องการ free up ทุนไปทำ deal ถัดไป</div>
+      </div>
+      <div class="condition-box" style="border-left-color: var(--green);">
+        <div class="condition-title" style="color:var(--green);">Model C เหมาะเมื่อ</div>
+        <div class="condition-item">ต้องการ bandwidth น้อย ทำคู่ขนาน deal อื่นได้</div>
+        <div class="condition-item">ทุนต่ำ ต้องการ cycle เร็วหมุนเงิน</div>
+        <div class="condition-item">หาทรัพย์บังคับคดีราคา &lt;500K ได้ในโซนที่ขายง่าย</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk -->
+  <div class="section">
+    <div class="section-title">ความเสี่ยงทุกโมเดล</div>
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>ความเสี่ยง</th>
+          <th>โมเดล</th>
+          <th>ระดับ</th>
+          <th>วิธีจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Brew เป็น bottleneck</strong>
+            <div class="risk-fix">ทุก deal ต้องการ Brew ทุก phase — ถ้าป่วยหรืองานหลักตึง ทุกอย่างหยุด</div>
+          </td>
+          <td><span class="badge badge-mid">A+B+C</span></td>
+          <td><span class="badge badge-high">สูงมาก</span></td>
+          <td>Delegate บางส่วนปีที่ 2 / template ลด effort</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>BOQ บาน / ขายช้า</strong>
+            <div class="risk-fix">ดอกเบี้ยวิ่ง ทุนจม margin หาย</div>
+          </td>
+          <td><span class="badge" style="background:var(--orange-light);color:var(--orange);">A</span></td>
+          <td><span class="badge badge-high">สูง</span></td>
+          <td>Lock BOQ ก่อนเริ่ม / list พร้อมรีโนเวทเสร็จ 80%</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Scope creep (consult)</strong>
+            <div class="risk-fix">Buyer ทักถามเพิ่มเรื่อยๆ เกิน 1 revision โดยไม่รู้ตัว</div>
+          </td>
+          <td><span class="badge" style="background:var(--blue-light);color:var(--blue);">B</span></td>
+          <td><span class="badge badge-high">สูง</span></td>
+          <td>Design Brief เซ็น + น้อง enforce boundary</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ช่าง buyer execute ไม่ตรงแบบ</strong>
+            <div class="risk-fix">งานออกมาไม่ดี buyer โทษ design ของ Brew — กระทบ reputation</div>
+          </td>
+          <td><span class="badge" style="background:var(--blue-light);color:var(--blue);">B</span></td>
+          <td><span class="badge badge-mid">กลาง</span></td>
+          <td>Disclaimer ในเอกสาร / build refer network ปีที่ 2</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>สภาพตลาดอ่อน / buyer กู้ไม่ผ่าน</strong>
+            <div class="risk-fix">exit ช้า ทุนจม นานกว่า 8 เดือน</div>
+          </td>
+          <td><span class="badge badge-mid">A+B</span></td>
+          <td><span class="badge badge-mid">กลาง</span></td>
+          <td>Pre-qualify buyer / price ต่ำกว่า 4M เพื่อ incentive โอน</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Consult quality ลดเมื่อ volume เพิ่ม</strong>
+            <div class="risk-fix">Deal แรกทุ่ม deal ที่ 5 ลดคุณภาพ — word of mouth พัง</div>
+          </td>
+          <td><span class="badge" style="background:var(--blue-light);color:var(--blue);">B</span></td>
+          <td><span class="badge badge-low">ต่ำ (ตอนนี้)</span></td>
+          <td>Standard template ทุก deal / max 3 consult พร้อมกัน</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ค่าส่วนกลางค้าง / นิติบุคคลขัด</strong>
+            <div class="risk-fix">คอนโดบางแห่งมีหนี้ส่วนกลางติดมากับทรัพย์ กระทบต้นทุนจริง</div>
+          </td>
+          <td><span class="badge" style="background:var(--green-light);color:var(--green);">C</span></td>
+          <td><span class="badge badge-high">สูง</span></td>
+          <td>ตรวจหนี้ส่วนกลางก่อนประมูล / บวกไว้ใน cost estimate เสมอ</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ช่างไม่ทันใน 21 วัน</strong>
+            <div class="risk-fix">cycle ยืด 3 เดือน → 4+ เดือน ทุนจมนานกว่าแผน</div>
+          </td>
+          <td><span class="badge" style="background:var(--green-light);color:var(--green);">C</span></td>
+          <td><span class="badge badge-mid">กลาง</span></td>
+          <td>Lock ช่างก่อนประมูลได้ทรัพย์ / scope งานต้องแคบและชัดมาก</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Timeline -->
+  <div class="section">
+    <div class="section-title">Timeline 5 ปี</div>
+    <div class="timeline-grid">
+
+      <div class="tl-year">Y1<br><span style="font-size:10px;color:var(--muted);">2026</span></div>
+      <div class="tl-content">
+        <div class="tl-deals">2 deals — sequential</div>
+        <div class="tl-text">พ.ค. — เสนา 125 (Model A, JV ที่บ้าน ไม่มีดอก) → ปิด พ.ย. 2026</div>
+        <div class="tl-text">ธ.ค. — บ้านคู้บอน (Model B) + HomiеHomie deal แรกเต็มรูปแบบ</div>
+        <div class="tl-target">Brew สะสม: ~200–450K (หัก reinvest)</div>
+        <div class="chips">
+          <span class="chip chip-orange">test 6-month cycle</span>
+          <span class="chip chip-orange">เปิดบัญชี HH แยก</span>
+          <span class="chip chip-orange">lock BOQ discipline</span>
+        </div>
+      </div>
+      <div class="tl-divider"></div>
+
+      <div class="tl-year">Y2<br><span style="font-size:10px;color:var(--muted);">2027</span></div>
+      <div class="tl-content">
+        <div class="tl-deals">3–4 deals — เริ่ม overlap</div>
+        <div class="tl-text">กู้แบงค์ deal แรก → ไม่ต้องรอทุนคืนก่อน</div>
+        <div class="tl-text">Mix A+B ตามทรัพย์ที่ได้ / เริ่ม delegate consult บางส่วน</div>
+        <div class="tl-target">Brew สะสม: ~1.2–1.7M รวม</div>
+        <div class="tl-warning">⚠ ต้องกู้แบงค์ได้ — ถ้าไม่ได้ volume ติด 2 deals/ปี</div>
+        <div class="chips">
+          <span class="chip chip-blue">สมัครสินเชื่อแบงค์</span>
+          <span class="chip chip-blue">build refer ช่าง network</span>
+          <span class="chip chip-green">เริ่ม overlap 2 deals</span>
+        </div>
+      </div>
+      <div class="tl-divider"></div>
+
+      <div class="tl-year">Y3<br><span style="font-size:10px;color:var(--muted);">2028</span></div>
+      <div class="tl-content">
+        <div class="tl-deals">4–5 deals — overlap เต็มรูปแบบ</div>
+        <div class="tl-text">Model B scale ได้ถ้า refer ช่าง stable / template consult พร้อม</div>
+        <div class="tl-text">เริ่ม hire part-time ช่วย site / admin</div>
+        <div class="tl-target">Brew สะสม: ~2.5–3.2M รวม</div>
+        <div class="chips">
+          <span class="chip chip-green">3Y milestone: ~3M</span>
+          <span class="chip chip-orange">review model mix A vs B</span>
+        </div>
+      </div>
+      <div class="tl-divider"></div>
+
+      <div class="tl-year">Y4<br><span style="font-size:10px;color:var(--muted);">2029</span></div>
+      <div class="tl-content">
+        <div class="tl-deals">5 deals</div>
+        <div class="tl-text">Brew ลด hands-on ต่อ deal / ทีม execute ได้อิสระมากขึ้น</div>
+        <div class="tl-target">Brew สะสม: ~3.8–4.2M รวม</div>
+        <div class="chips">
+          <span class="chip chip-green">HH เป็น primary income</span>
+        </div>
+      </div>
+      <div class="tl-divider"></div>
+
+      <div class="tl-year">Y5<br><span style="font-size:10px;color:var(--muted);">2030</span></div>
+      <div class="tl-content">
+        <div class="tl-deals">5–6 deals + 1 high-margin deal</div>
+        <div class="tl-text">ถ้ามี deal margin 25%+ สัก 2 deal หรือ volume ถึง 6 deal</div>
+        <div class="tl-target">🎯 Brew สะสม: 5M+ ✓</div>
+        <div class="chips">
+          <span class="chip chip-green">5Y goal reached</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3Y / 5Y targets -->
+  <div class="section">
+    <div class="section-title">เป้าสะสม Brew (เงินสดสุทธิ)</div>
+    <div class="target-cards">
+      <div class="target-card">
+        <div class="target-year">ปลาย Y1 / เม.ย. 27</div>
+        <div class="target-amount">~400K</div>
+        <div class="target-note">หลัง reinvest บางส่วน</div>
+      </div>
+      <div class="target-card">
+        <div class="target-year">ปลาย Y2 / 2027</div>
+        <div class="target-amount">~1.5M</div>
+        <div class="target-note">ขึ้นกับแบงค์ให้กู้</div>
+      </div>
+      <div class="target-card">
+        <div class="target-year">ปลาย Y3 / 2028</div>
+        <div class="target-amount">~3M</div>
+        <div class="target-note">3Y milestone</div>
+      </div>
+      <div class="target-card highlight">
+        <div class="target-year">ปลาย Y5 / 2030</div>
+        <div class="target-amount">5M+</div>
+        <div class="target-note">เป้าหมายหลัก ✓</div>
+      </div>
+    </div>
+
+    <div class="condition-box" style="margin-top:16px;">
+      <div class="condition-title">ถึง 5M ได้ถ้าเกิดอย่างน้อย 1 ใน 3</div>
+      <div class="condition-item">margin ขึ้นเป็น 18–20% ต่อ deal โดยเฉลี่ย</div>
+      <div class="condition-item">volume ปีที่ 4–5 ได้ 6+ deals ต่อปี</div>
+      <div class="condition-item">มี high-margin deal (25%+) สัก 2–3 deal</div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">⚠ Critical dependency — ถ้าพลาดอันนี้ plan ทั้งหมดเลื่อน</div>
+      <div class="warning-text">กู้แบงค์ได้ภายในปีที่ 2 คือ gate ที่สำคัญสุด — ถ้ายังใช้เงินแม่อย่างเดียว volume ติด 2 deals/ปี เงินสะสมปีที่ 5 จะอยู่ที่ ~2.5–3M ไม่ถึง 5M</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">HomiеHomie — Internal Strategy Doc</div>
+    <div class="footer-date">Updated Apr 2026 · Confidential</div>
+  </div>
+
+</div>
+</body>
+</html>
