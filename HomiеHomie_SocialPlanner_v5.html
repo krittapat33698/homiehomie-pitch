@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomiеHomie — Social Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F6F3;
+  --surface: #FFFFFF;
+  --border: rgba(24,24,22,0.1);
+  --border-strong: rgba(24,24,22,0.18);
+  --text: #181816;
+  --muted: #6B6B68;
+  --hint: #A8A8A4;
+  --bkk: #EF9F27;
+  --bkk-bg: #FAEEDA;
+  --bkk-text: #633806;
+  --kub: #1D9E75;
+  --kub-bg: #E1F5EE;
+  --kub-text: #085041;
+  --tip: #7F77DD;
+  --tip-bg: #EEEDFE;
+  --tip-text: #3C3489;
+  --danger-bg: #FCEBEB;
+  --danger-text: #791F1F;
+  --ok-bg: #EAF3DE;
+  --ok-text: #27500A;
+  --info-bg: #E6F1FB;
+  --info-text: #0C447C;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Sarabun', sans-serif;
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── LAYOUT ── */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 48px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.nav { display: flex; gap: 0; }
+.nav-btn {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  padding: 0 16px;
+  height: 48px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.on { color: var(--text); border-bottom-color: var(--text); }
+
+.main { flex: 1; padding: 24px; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.on { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.card-head {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-head.flush { border-bottom: none; }
+
+/* ── BADGES & DOTS ── */
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-bkk { background: var(--bkk); }
+.dot-kub { background: var(--kub); }
+.dot-tip { background: var(--tip); }
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.b-bkk { background: var(--bkk-bg); color: var(--bkk-text); }
+.b-kub { background: var(--kub-bg); color: var(--kub-text); }
+.b-tip { background: var(--tip-bg); color: var(--tip-text); }
+.b-warn { background: var(--danger-bg); color: var(--danger-text); }
+.b-ok { background: var(--ok-bg); color: var(--ok-text); }
+.b-info { background: var(--info-bg); color: var(--info-text); }
+.b-gray { background: #F1EFE8; color: var(--muted); }
+
+/* ── TABLES ── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: left;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  background: #FAFAF8;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.tbl td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.tbl tr:last-child td { border-bottom: none; }
+
+/* ── INPUTS ── */
+.ic {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-family: var(--sans);
+  color: var(--text);
+  width: 100%;
+  outline: none;
+  padding: 0;
+  line-height: 1.5;
+}
+.ic::placeholder { color: var(--hint); }
+.ita { resize: vertical; min-height: 48px; line-height: 1.6; }
+select.ic { cursor: pointer; }
+
+.ic-box {
+  background: #FAFAF8;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  width: 100%;
+}
+.ic-box:focus-within { border-color: var(--border-strong); }
+
+/* ── CHECKBOXES ── */
+.cb {
+  width: 15px; height: 15px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+}
+.cb.checked { background: var(--text); border-color: var(--text); }
+.cb.checked::after {
+  content: '';
+  display: block;
+  width: 8px; height: 5px;
+  border-left: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(-45deg) translate(1px,-1px);
+}
+
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.check-row:last-child { border-bottom: none; }
+.cb-content { flex: 1; }
+.cb-main { font-size: 13px; color: var(--text); line-height: 1.5; }
+.cb-sub { font-size: 11px; color: var(--hint); margin-top: 2px; line-height: 1.4; }
+
+/* ── BUTTONS ── */
+.btn {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.1s;
+}
+.btn:hover { background: var(--bg); color: var(--text); }
+.btn-del {
+  font-size: 16px;
+  color: var(--hint);
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+  padding: 0 2px;
+  flex-shrink: 0;
+  font-family: var(--sans);
+  transition: color 0.1s;
+}
+.btn-del:hover { color: #A32D2D; }
+
+/* ── SECTION LABEL ── */
+.sl {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 10px 16px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── WEEK NAV ── */
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.week-title { font-size: 16px; font-weight: 600; }
+
+/* ── SIGNAL TABLE ── */
+.sig-wrap {
+  margin: 4px 16px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.sig-row {
+  display: grid;
+  grid-template-columns: 90px repeat(3, minmax(0,1fr));
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.sig-row:last-child { border-bottom: none; }
+.sig-row > div { padding: 7px 10px; }
+.sig-head { background: #FAFAF8; font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── PIVOT BOX ── */
+.pivot-box {
+  margin: 4px 16px 12px;
+  background: #FAFAF8;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+.pivot-box strong { color: var(--text); font-weight: 600; flex-shrink: 0; }
+
+/* ── COPY BOX ── */
+.copy-box {
+  margin: 5px 12px;
+  background: #FAFAF8;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.copy-box:hover { border-color: var(--border-strong); }
+.copy-ta {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--muted);
+  resize: none;
+  outline: none;
+  line-height: 1.6;
+  min-height: 20px;
+  cursor: text;
+}
+.copy-ta::placeholder { color: var(--hint); }
+.copy-tag {
+  font-size: 10px;
+  color: var(--hint);
+  cursor: pointer;
+  white-space: nowrap;
+  padding-top: 2px;
+  font-weight: 500;
+}
+.copy-tag:hover { color: var(--muted); }
+
+/* ── PIPELINE (GANTT) ── */
+.gantt-wrap {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.gantt-grid {
+  min-width: 700px;
+}
+.gantt-head {
+  display: grid;
+  border-bottom: 1px solid var(--border);
+  background: #FAFAF8;
+}
+.gantt-hcell {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 7px 8px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.gantt-hcell:last-child { border-right: none; }
+.gantt-hcell.label-col { text-align: left; }
+
+.gantt-row {
+  display: grid;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  min-height: 36px;
+}
+.gantt-row:last-child { border-bottom: none; }
+.gantt-group {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding: 8px 16px 4px;
+  background: #FAFAF8;
+  border-bottom: 1px solid var(--border);
+}
+.gantt-cell {
+  padding: 4px 6px;
+  border-right: 1px solid var(--border);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.gantt-cell:last-child { border-right: none; }
+.gantt-cell.label-col {
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--text);
+}
+.gantt-bar {
+  height: 20px;
+  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gb-bkk { background: var(--bkk-bg); color: var(--bkk-text); }
+.gb-kub { background: var(--kub-bg); color: var(--kub-text); }
+.gb-tip { background: var(--tip-bg); color: var(--tip-text); }
+.gb-warn { background: var(--danger-bg); color: var(--danger-text); }
+
+/* ── PERFORMANCE LOG ── */
+.perf-row {
+  display: grid;
+  grid-template-columns: 60px minmax(0,2fr) 80px 70px 60px 60px 70px 32px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  font-size: 12px;
+}
+.perf-row:last-child { border-bottom: none; }
+.perf-row > div { padding: 7px 8px; }
+.perf-head {
+  background: #FAFAF8;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: grid;
+  grid-template-columns: 60px minmax(0,2fr) 80px 70px 60px 60px 70px 32px;
+}
+.perf-head > span { padding: 7px 8px; }
+
+.verdict-select {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: #FAFAF8;
+  cursor: pointer;
+  font-family: var(--sans);
+  color: var(--muted);
+  width: 100%;
+}
+
+/* ── PROJ PHASE ROW ── */
+.phase-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0,1fr) minmax(0,1.5fr) 70px 32px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.phase-row:last-child { border-bottom: none; }
+.phase-row > div { padding: 7px 10px; font-size: 12px; }
+
+/* ── IDEA ROW ── */
+.idea-row {
+  display: grid;
+  grid-template-columns: minmax(0,2fr) 90px 65px 80px 32px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.idea-row:last-child { border-bottom: none; }
+.idea-row > div { padding: 7px 8px; font-size: 12px; }
+.idea-head {
+  background: #FAFAF8;
+  display: grid;
+  grid-template-columns: minmax(0,2fr) 90px 65px 80px 32px;
+}
+.idea-head > span {
+  font-size: 10px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── SUMMARY STATS ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.stat-label { font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+.stat-val { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); }
+.stat-sub { font-size: 11px; color: var(--hint); margin-top: 3px; }
+
+/* ── MISC ── */
+.mt-auto { margin-left: auto; }
+.flex { display: flex; align-items: center; gap: 8px; }
+.section-gap { margin-top: 24px; }
+
+.add-proj-btn {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 13px;
+  font-family: var(--sans);
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all 0.1s;
+}
+.add-proj-btn:hover { background: var(--surface); color: var(--text); }
+
+@media (max-width: 640px) {
+  .stat-grid { grid-template-columns: repeat(2,1fr); }
+  .main { padding: 16px; }
+  .topbar { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">HomiеHomie</div>
+  <div class="nav">
+    <button class="nav-btn on" onclick="nav('pipeline',this)">pipeline</button>
+    <button class="nav-btn" onclick="nav('weekly',this)">สัปดาห์นี้</button>
+    <button class="nav-btn" onclick="nav('projects',this)">projects</button>
+    <button class="nav-btn" onclick="nav('performance',this)">performance</button>
+    <button class="nav-btn" onclick="nav('ideas',this)">ideas</button>
+    <button class="nav-btn" onclick="nav('copy',this)">copy bank</button>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0">
+    <span id="save-indicator" style="font-size:11px;color:var(--hint)">—</span>
+    <button class="btn" onclick="exportJSON()" style="font-size:11px;padding:3px 10px">export</button>
+    <label class="btn" style="font-size:11px;padding:3px 10px;cursor:pointer">
+      import<input type="file" accept=".json" onchange="importJSON(event)" style="display:none">
+    </label>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════
+     PAGE: PIPELINE (GANTT)
+══════════════════════════════════════════════ -->
+<div id="pipeline" class="page on">
+
+  <div class="stat-grid" id="stat-grid"></div>
+
+  <div class="card">
+    <div class="card-head">
+      pipeline — ภาพรวม 8 สัปดาห์
+      <button class="btn mt-auto" onclick="addGanttRow()">+ เพิ่ม</button>
+    </div>
+    <div class="gantt-wrap">
+      <div class="gantt-grid" id="gantt-grid"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-head">decision gate สำคัญ</div>
+    <table class="tbl" id="gate-table">
+      <tr>
+        <th style="width:60px">week</th>
+        <th style="width:100px">project</th>
+        <th>เงื่อนไข</th>
+        <th style="width:100px">ถ้าผ่าน</th>
+        <th style="width:100px">ถ้าไม่ผ่าน</th>
+        <th style="width:32px"></th>
+      </tr>
+    </table>
+    <div style="padding:8px 16px">
+      <button class="btn" onclick="addGate()">+ gate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: WEEKLY
+══════════════════════════════════════════════ -->
+<div id="weekly" class="page">
+  <div class="flex" style="margin-bottom:16px">
+    <button class="btn" onclick="chW(-1)">←</button>
+    <span class="week-title" id="wtitle"></span>
+    <button class="btn" onclick="chW(1)">→</button>
+    <button class="btn mt-auto" onclick="addWeek()">+ สัปดาห์ใหม่</button>
+  </div>
+
+  <!-- BKKKK ACTION -->
+  <div class="card">
+    <div class="card-head">
+      <div class="dot dot-bkk"></div>บางกะปิ — action list
+      <button class="btn mt-auto" onclick="addCheck('bkk-checks')">+ เพิ่ม</button>
+    </div>
+    <div id="bkk-checks"></div>
+  </div>
+
+  <!-- KUB GROUP -->
+  <div class="card">
+    <div class="card-head">
+      <div class="dot dot-kub"></div>คู้บอน — FB group log
+      <button class="btn mt-auto" onclick="addGroupRow()">+ วัน</button>
+    </div>
+    <table class="tbl" id="group-table">
+      <tr>
+        <th style="width:80px">วัน</th>
+        <th>กลุ่ม FB</th>
+        <th style="width:80px">version</th>
+        <th style="width:36px">done</th>
+      </tr>
+    </table>
+    <div class="sl">signal tracker</div>
+    <div class="sig-wrap">
+      <div class="sig-row sig-head">
+        <div>version</div><div>DM</div><div>comment</div><div>สถานะ</div>
+      </div>
+      <div class="sig-row">
+        <div>v1 price</div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+      </div>
+      <div class="sig-row">
+        <div>v2 lifestyle</div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+      </div>
+      <div class="sig-row">
+        <div>v3 design</div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+        <div><input class="ic" placeholder="—"></div>
+      </div>
+    </div>
+    <div class="pivot-box">
+      <strong>pivot rule:</strong>
+      <input class="ic" value="DM รวม &lt; 3 ใน 1 อาทิตย์ → ทำวิดีโอ walk-through + ยิง ads version ที่ engage ดีสุด" style="font-size:12px;color:var(--muted)">
+    </div>
+  </div>
+
+  <!-- VIDEO SCRIPT -->
+  <div class="card">
+    <div class="card-head">
+      วิดีโอ / Reel — script outline
+      <span class="badge b-gray mt-auto">standby</span>
+    </div>
+    <table class="tbl">
+      <tr><th style="width:90px">ช่วง</th><th>content</th></tr>
+      <tr><td style="color:var(--muted)">0–3 วิ hook</td><td><input class="ic" placeholder="hook..."></td></tr>
+      <tr><td style="color:var(--muted)">3–25 วิ process</td><td><input class="ic" placeholder="footage..."></td></tr>
+      <tr><td style="color:var(--muted)">25–55 วิ reveal</td><td><input class="ic" placeholder="จบด้วย..."></td></tr>
+      <tr><td style="color:var(--muted)">55–60 วิ CTA</td><td><input class="ic" placeholder="CTA..."></td></tr>
+    </table>
+    <div class="sl">caption + hashtag</div>
+    <div style="padding:6px 16px 12px">
+      <textarea class="ic ita" placeholder="#รีโนเวทบ้าน #ทาวน์เฮ้าส์มือสอง #สถาปนิก #homiehomie"></textarea>
+    </div>
+    <div class="sl">result (กรอกปลายอาทิตย์)</div>
+    <table class="tbl">
+      <tr><th>metric</th><th>FB Reel</th><th>TikTok</th><th>IG</th></tr>
+      <tr><td>views</td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td></tr>
+      <tr><td>likes</td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td></tr>
+      <tr><td>DM / inquiry</td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td><td><input class="ic" placeholder="—"></td></tr>
+    </table>
+    <div class="sl">สรุป → อาทิตย์หน้า</div>
+    <div style="padding:6px 16px 12px">
+      <textarea class="ic ita" placeholder="organic ต่อ / pivot ads / เปลี่ยน angle..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: PROJECTS
+══════════════════════════════════════════════ -->
+<div id="projects" class="page">
+  <div id="proj-list"></div>
+  <button class="add-proj-btn" onclick="addProject()">+ project ใหม่</button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: PERFORMANCE LOG
+══════════════════════════════════════════════ -->
+<div id="performance" class="page">
+
+  <div class="stat-grid" id="perf-stat-grid"></div>
+
+  <div class="card">
+    <div class="card-head">
+      performance log — ทุกโพส
+      <button class="btn mt-auto" onclick="addPerfRow()">+ โพสใหม่</button>
+    </div>
+    <div class="perf-head">
+      <span>week</span><span>topic</span><span>platform</span>
+      <span>views</span><span>likes</span><span>DM</span>
+      <span>verdict</span><span></span>
+    </div>
+    <div id="perf-list"></div>
+  </div>
+
+  <div class="card" style="margin-top:0">
+    <div class="card-head">สรุป insight</div>
+    <div style="padding:10px 16px 14px">
+      <textarea class="ic ita" placeholder="format ไหน work สุด / platform ไหนให้ DM / angle ที่ควร double down..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: IDEAS
+══════════════════════════════════════════════ -->
+<div id="ideas" class="page">
+  <div class="card">
+    <div class="card-head">
+      idea bank
+      <button class="btn mt-auto" onclick="addIdea()">+ เพิ่ม</button>
+    </div>
+    <div class="idea-head">
+      <span>idea / hook</span><span>project</span><span>priority</span><span>timing</span><span></span>
+    </div>
+    <div id="idea-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: COPY BANK
+══════════════════════════════════════════════ -->
+<div id="copy" class="page">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <div class="card">
+        <div class="card-head">hooks <button class="btn mt-auto" onclick="addCopy('hooks-list','hook ใหม่...')">+ เพิ่ม</button></div>
+        <div id="hooks-list"></div>
+        <div style="height:8px"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">CTAs <button class="btn mt-auto" onclick="addCopy('ctas-list','CTA ใหม่...')">+ เพิ่ม</button></div>
+        <div id="ctas-list"></div>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-head">caption templates <button class="btn mt-auto" onclick="addCopy('cap-list','caption...')">+ เพิ่ม</button></div>
+        <div id="cap-list"></div>
+        <div style="height:8px"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">hashtag sets <button class="btn mt-auto" onclick="addCopy('hash-list','#hashtag...')">+ เพิ่ม</button></div>
+        <div id="hash-list"></div>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════
+function nav(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+
+function toggle(el){ el.classList.toggle('checked'); }
+
+// ══════════════════════════════════════════
+// PIPELINE / GANTT
+// ══════════════════════════════════════════
+const WEEKS_LABEL = ['W1','W2','W3','W4','W5','W6','W7','W8'];
+const GANTT_COLS = 160; // label col width px
+
+const GANTT_DATA = [
+  { group:'บางกะปิ — renovation', dot:'bkk', rows:[
+    { label:'before + วันแรกช่าง', weeks:[1], style:'gb-warn', text:'ถ่าย before!' },
+    { label:'BTS weekly (MEP)', weeks:[2,3], style:'gb-bkk', text:'footage สะสม' },
+    { label:'design reveal', weeks:[3,4], style:'gb-bkk', text:'mood board' },
+    { label:'mid-progress', weeks:[5,6], style:'gb-bkk', text:'transformation' },
+    { label:'full before-after', weeks:[7,8], style:'gb-bkk', text:'Reel + TikTok' },
+  ]},
+  { group:'คู้บอน — marketing', dot:'kub', rows:[
+    { label:'กลุ่ม FB (3 version)', weeks:[1], style:'gb-warn', text:'จ.-พ.-ศ.' },
+    { label:'วัดผล organic', weeks:[2], style:'gb-kub', text:'DM < 3 → pivot' },
+    { label:'walk-through video', weeks:[2,3], style:'gb-kub', text:'standby / ยิงแอด' },
+  ]},
+  { group:'architect tips (evergreen)', dot:'tip', rows:[
+    { label:'3 จุดดูบ้านมือสอง', weeks:[3], style:'gb-tip', text:'educational' },
+    { label:'BOQ คืออะไร', weeks:[5], style:'gb-tip', text:'explainer 60วิ' },
+    { label:'รีโนเวทเริ่มจากอะไร', weeks:[7], style:'gb-tip', text:'series' },
+  ]},
+];
+
+let ganttRows = JSON.parse(JSON.stringify(GANTT_DATA));
+
+function renderGantt(){
+  const grid = document.getElementById('gantt-grid');
+  const W = WEEKS_LABEL.length;
+  const cols = `${GANTT_COLS}px repeat(${W}, minmax(0,1fr))`;
+
+  let html = `<div class="gantt-head" style="grid-template-columns:${cols}">`;
+  html += `<div class="gantt-hcell label-col">content</div>`;
+  WEEKS_LABEL.forEach(w => html += `<div class="gantt-hcell">${w}</div>`);
+  html += '</div>';
+
+  ganttRows.forEach((group, gi) => {
+    html += `<div class="gantt-group"><span class="dot dot-${group.dot}" style="display:inline-block;margin-right:6px;vertical-align:middle"></span>${group.group}</div>`;
+    group.rows.forEach((row, ri) => {
+      html += `<div class="gantt-row" style="grid-template-columns:${cols}">`;
+      html += `<div class="gantt-cell label-col"><input class="ic" value="${row.label}" style="font-size:12px" onchange="ganttRows[${gi}].rows[${ri}].label=this.value"></div>`;
+      for(let w=1;w<=W;w++){
+        const inRange = row.weeks.includes(w);
+        const isFirst = inRange && !row.weeks.includes(w-1);
+        const isLast  = inRange && !row.weeks.includes(w+1);
+        const spanEnd = row.weeks.filter(x=>x>=w).length > 0;
+        html += `<div class="gantt-cell" style="padding:4px 3px;">`;
+        if(inRange){
+          const br = `border-radius:${isFirst?'4px':'0'} ${isLast?'4px':'0'} ${isLast?'4px':'0'} ${isFirst?'4px':'0'}`;
+          html += `<div class="gantt-bar ${row.style}" style="${br};${isFirst?'':'margin-left:-3px;'}${isLast?'':'margin-right:-3px;'}">${isFirst?row.text:''}</div>`;
+        }
+        html += `</div>`;
+      }
+      html += `<div class="gantt-cell" style="padding:2px;"><button class="btn-del" onclick="removeGanttRow(${gi},${ri})">×</button></div>`;
+      html += '</div>';
+    });
+  });
+
+  grid.innerHTML = html;
+}
+
+function addGanttRow(){
+  ganttRows[0].rows.push({ label:'content ใหม่', weeks:[1], style:'gb-bkk', text:'ใหม่' });
+  renderGantt();
+}
+function removeGanttRow(gi,ri){ ganttRows[gi].rows.splice(ri,1); renderGantt(); }
+
+// DECISION GATES
+const GATES_INIT = [
+  { week:'W1', proj:'คู้บอน', cond:'DM รวม < 3', pass:'organic ต่อ W2', fail:'pivot → video + ads' },
+  { week:'W2', proj:'บางกะปิ', cond:'footage before พร้อม', pass:'ตัด Reel W3', fail:'ถ่ายเพิ่มก่อน' },
+];
+
+function addGate(data){
+  const d = data || { week:'', proj:'', cond:'', pass:'', fail:'' };
+  const tb = document.getElementById('gate-table');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input class="ic" value="${d.week}" placeholder="W1" style="font-size:12px"></td>
+    <td><input class="ic" value="${d.proj}" placeholder="project" style="font-size:12px"></td>
+    <td><input class="ic" value="${d.cond}" placeholder="เงื่อนไข..." style="font-size:12px"></td>
+    <td><input class="ic" value="${d.pass}" placeholder="ทำต่อ..." style="font-size:12px;color:#27500A"></td>
+    <td><input class="ic" value="${d.fail}" placeholder="pivot..." style="font-size:12px;color:#791F1F"></td>
+    <td><button class="btn-del" onclick="this.closest('tr').remove()">×</button></td>`;
+  tb.appendChild(tr);
+}
+
+// STATS
+function renderStats(){
+  const stats = [
+    { label:'โปรเจคที่กำลังทำ', val:'2', sub:'บางกะปิ · คู้บอน' },
+    { label:'สัปดาห์ปัจจุบัน', val:'W1', sub:'28 เม.ย.–4 พ.ค.' },
+    { label:'ideas ใน bank', val:'8', sub:'3 ด่วน · 3 กลาง · 2 ต่ำ' },
+    { label:'โพสที่ log แล้ว', val:'0', sub:'กรอกใน performance' },
+  ];
+  document.getElementById('stat-grid').innerHTML = stats.map(s=>`
+    <div class="stat-box">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-val">${s.val}</div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// WEEKLY
+// ══════════════════════════════════════════
+const WEEKS_LIST = [
+  'W1 — 28 เม.ย.–4 พ.ค.',
+  'W2 — 5–11 พ.ค.',
+  'W3 — 12–18 พ.ค.',
+  'W4 — 19–25 พ.ค.',
+  'W5 — 26 พ.ค.–1 มิ.ย.',
+];
+let wIdx = 0;
+
+function chW(d){
+  wIdx = Math.max(0, Math.min(WEEKS_LIST.length-1, wIdx+d));
+  document.getElementById('wtitle').textContent = WEEKS_LIST[wIdx];
+}
+function addWeek(){
+  const n = WEEKS_LIST.length+1;
+  WEEKS_LIST.push(`W${n} — กรอกวันที่...`);
+  wIdx = WEEKS_LIST.length-1;
+  document.getElementById('wtitle').textContent = WEEKS_LIST[wIdx];
+}
+
+const BKK_CHECKS = [
+  { main:'ถ่ายรูป/วิดีโอ before ทุกห้อง', sub:'ratio 9:16 เก็บทั้ง wide + detail' },
+  { main:'ถ่าย footage ช่างทำงานวันแรก', sub:'เสียง ambient + ภาพ action = authentic' },
+  { main:'โพส "before" + caption บน FB+IG', sub:'caption: เริ่มแล้ว! ติดตาม EP ถัดไป' },
+  { main:'ยังไม่ต้องทำ Reel/TikTok — รอ footage สะสม W2–W3', sub:'' },
+];
+
+function addCheck(cid, data){
+  const c = document.getElementById(cid);
+  const d = data || { main:'', sub:'' };
+  const row = document.createElement('div');
+  row.className = 'check-row';
+  row.innerHTML = `
+    <div class="cb" onclick="toggle(this)"></div>
+    <div class="cb-content">
+      <div class="cb-main"><input class="ic" value="${d.main}" placeholder="รายการ..." style="font-size:13px"></div>
+      ${d.sub !== undefined ? `<div class="cb-sub"><input class="ic" value="${d.sub}" placeholder="รายละเอียด..." style="font-size:11px;color:var(--hint)"></div>` : ''}
+    </div>
+    <button class="btn-del" onclick="this.closest('.check-row').remove()">×</button>`;
+  c.appendChild(row);
+}
+
+const GROUP_ROWS_INIT = [
+  { day:'จันทร์ 28', ver:'v1 price', cls:'b-info' },
+  { day:'พุธ 30',    ver:'v2 lifestyle', cls:'b-kub' },
+  { day:'ศุกร์ 2',   ver:'v3 design', cls:'b-tip' },
+];
+
+function addGroupRow(data){
+  const tb = document.getElementById('group-table');
+  const d = data || { day:'', ver:'', cls:'b-gray' };
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input class="ic" value="${d.day}" placeholder="วัน..." style="font-size:12px"></td>
+    <td><input class="ic" placeholder="ชื่อกลุ่ม FB..." style="font-size:12px"></td>
+    <td><span class="badge ${d.cls}">${d.ver || 'version'}</span></td>
+    <td><div class="cb" onclick="toggle(this)"></div></td>`;
+  tb.appendChild(tr);
+}
+
+// ══════════════════════════════════════════
+// PROJECTS
+// ══════════════════════════════════════════
+const PROJ_INIT = [
+  {
+    name: 'ทาวน์เฮ้าส์บางกะปิ', dot:'bkk', badge:'b-bkk', badgeText:'renovation',
+    phases:[
+      { phase:'before',  status:'ด่วน',    sCls:'b-warn', focus:'ถ่ายก่อนช่างทำต่อ',         timing:'W1' },
+      { phase:'W1–W2',   status:'เดิน',    sCls:'b-ok',   focus:'BTS ช่างทำงาน MEP',          timing:'W2' },
+      { phase:'W3–W4',   status:'รอ',      sCls:'b-gray', focus:'design reveal + mood board', timing:'W3' },
+      { phase:'W6–W8',   status:'รอ',      sCls:'b-gray', focus:'mid-progress transformation',timing:'W6' },
+      { phase:'สิ้นงาน', status:'รอ',      sCls:'b-gray', focus:'full before-after Reel+TikTok',timing:'สิ้นงาน' },
+    ]
+  },
+  {
+    name: 'คู้บอน ซ.27', dot:'kub', badge:'b-kub', badgeText:'marketing',
+    phases:[
+      { phase:'กลุ่ม FB', status:'กำลังทำ', sCls:'b-warn', focus:'จ.-พ.-ศ. 3 version',        timing:'W1' },
+      { phase:'วัดผล',    status:'W2',      sCls:'b-gray', focus:'DM < 3 → pivot video+ads',  timing:'W2' },
+      { phase:'วิดีโอ',   status:'standby', sCls:'b-gray', focus:'walk-through คู้บอน',        timing:'ถ้า organic fail' },
+    ]
+  },
+];
+
+function addPhaseRow(wrapId){
+  const wrap = document.getElementById(wrapId);
+  const row = document.createElement('div');
+  row.className = 'phase-row';
+  row.innerHTML = `
+    <div><input class="ic" placeholder="phase..." style="font-size:12px"></div>
+    <div><input class="ic" placeholder="สถานะ..." style="font-size:12px"></div>
+    <div><input class="ic" placeholder="content focus..." style="font-size:12px"></div>
+    <div><input class="ic" placeholder="W?" style="font-size:12px"></div>
+    <div><button class="btn-del" onclick="this.closest('.phase-row').remove()">×</button></div>`;
+  wrap.appendChild(row);
+  row.querySelector('input').focus();
+}
+
+function renderProjects(){
+  const list = document.getElementById('proj-list');
+  PROJ_INIT.forEach((proj, pi) => {
+    const wrapId = 'phases-'+pi;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.marginBottom = '16px';
+
+    let phaseHtml = '';
+    proj.phases.forEach(p => {
+      phaseHtml += `<div class="phase-row">
+        <div><input class="ic" value="${p.phase}" style="font-size:12px"></div>
+        <div><span class="badge ${p.sCls}" contenteditable style="outline:none;cursor:text">${p.status}</span></div>
+        <div><input class="ic" value="${p.focus}" style="font-size:12px"></div>
+        <div><input class="ic" value="${p.timing}" style="font-size:12px;width:60px"></div>
+        <div><button class="btn-del" onclick="this.closest('.phase-row').remove()">×</button></div>
+      </div>`;
+    });
+
+    card.innerHTML = `
+      <div class="card-head">
+        <div class="dot dot-${proj.dot}"></div>
+        <input class="ic" value="${proj.name}" style="font-weight:600;font-size:13px">
+        <span class="badge ${proj.badge}" style="margin-left:4px">${proj.badgeText}</span>
+        <button class="btn mt-auto" onclick="addPhaseRow('${wrapId}')">+ phase</button>
+      </div>
+      <div style="display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.5fr) 70px 32px;background:#FAFAF8;border-bottom:1px solid var(--border)">
+        <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:7px 10px">phase</span>
+        <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:7px 10px">สถานะ</span>
+        <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:7px 10px">content focus</span>
+        <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:7px 10px">timing</span>
+        <span></span>
+      </div>
+      <div id="${wrapId}">${phaseHtml}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function addProject(){
+  const list = document.getElementById('proj-list');
+  const pi = Date.now();
+  const wrapId = 'phases-'+pi;
+  const card = document.createElement('div');
+  card.className='card';
+  card.style.marginBottom='16px';
+  card.innerHTML = `
+    <div class="card-head">
+      <div class="dot" style="background:#7F77DD"></div>
+      <input class="ic" placeholder="ชื่อ project..." style="font-weight:600;font-size:13px">
+      <button class="btn mt-auto" onclick="addPhaseRow('${wrapId}')">+ phase</button>
+      <button class="btn-del" onclick="this.closest('.card').remove()">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.5fr) 70px 32px;background:#FAFAF8;border-bottom:1px solid var(--border)">
+      <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:7px 10px">phase</span>
+      <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:7px 10px">สถานะ</span>
+      <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:7px 10px">content focus</span>
+      <span style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:7px 10px">timing</span>
+      <span></span>
+    </div>
+    <div id="${wrapId}"></div>`;
+  list.insertBefore(card, list.lastElementChild);
+}
+
+// ══════════════════════════════════════════
+// PERFORMANCE LOG
+// ══════════════════════════════════════════
+const PERF_INIT = [];
+
+function addPerfRow(data){
+  const list = document.getElementById('perf-list');
+  const d = data || {};
+  const row = document.createElement('div');
+  row.className = 'perf-row';
+  row.innerHTML = `
+    <div><input class="ic" value="${d.week||''}" placeholder="W1" style="font-size:11px"></div>
+    <div><input class="ic" value="${d.topic||''}" placeholder="topic / hook..." style="font-size:12px"></div>
+    <div>
+      <select class="ic" style="font-size:11px">
+        <option>TikTok</option><option>FB Reel</option><option>IG Reel</option>
+        <option>FB group</option><option>IG carousel</option><option>FB post</option>
+      </select>
+    </div>
+    <div><input class="ic" value="${d.views||''}" placeholder="—" style="font-size:12px;font-family:var(--mono)"></div>
+    <div><input class="ic" value="${d.likes||''}" placeholder="—" style="font-size:12px;font-family:var(--mono)"></div>
+    <div><input class="ic" value="${d.dm||''}" placeholder="—" style="font-size:12px;font-family:var(--mono)"></div>
+    <div>
+      <select class="verdict-select">
+        <option value="">—</option>
+        <option value="win" style="color:#27500A">win</option>
+        <option value="ok" style="color:#BA7517">ok</option>
+        <option value="flop" style="color:#791F1F">flop</option>
+        <option value="too-soon">รอดู</option>
+      </select>
+    </div>
+    <div><button class="btn-del" onclick="this.closest('.perf-row').remove()">×</button></div>`;
+  list.appendChild(row);
+}
+
+function renderPerfStats(){
+  const stats = [
+    { label:'โพสที่บันทึก', val:'—', sub:'log ทุกโพสเพื่อดู pattern' },
+    { label:'avg views', val:'—', sub:'FB Reel / TikTok / IG' },
+    { label:'DM รวม', val:'—', sub:'ทุก platform' },
+    { label:'win rate', val:'—', sub:'% โพสที่ได้ verdict win' },
+  ];
+  document.getElementById('perf-stat-grid').innerHTML = stats.map(s=>`
+    <div class="stat-box">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-val">${s.val}</div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// IDEAS
+// ══════════════════════════════════════════
+const IDEAS_INIT = [
+  { idea:'before + ช่างเข้าวันแรก',     proj:'บางกะปิ', pri:'ด่วน', timing:'W1' },
+  { idea:'walk-through คู้บอน',          proj:'คู้บอน',  pri:'standby', timing:'ถ้า organic fail' },
+  { idea:'MEP เดินสายแล้ว',              proj:'บางกะปิ', pri:'กลาง', timing:'W2' },
+  { idea:'design reveal + mood board',   proj:'บางกะปิ', pri:'กลาง', timing:'W3' },
+  { idea:'mid-progress transformation',  proj:'บางกะปิ', pri:'กลาง', timing:'W6' },
+  { idea:'3 จุดดูก่อนซื้อบ้านมือสอง',  proj:'tip',     pri:'ต่ำ', timing:'ยืดหยุ่น' },
+  { idea:'BOQ คืออะไร ทำไมสำคัญ',       proj:'tip',     pri:'ต่ำ', timing:'ยืดหยุ่น' },
+  { idea:'รีโนเวทเริ่มจากอะไร?',        proj:'tip',     pri:'ต่ำ', timing:'ยืดหยุ่น' },
+];
+
+function addIdea(data){
+  const list = document.getElementById('idea-list');
+  const d = data || {};
+  const row = document.createElement('div');
+  row.className = 'idea-row';
+  row.innerHTML = `
+    <div><input class="ic" value="${d.idea||''}" placeholder="idea / hook..." style="font-size:13px"></div>
+    <div><input class="ic" value="${d.proj||''}" placeholder="project..." style="font-size:12px"></div>
+    <div>
+      <select class="ic" style="font-size:12px">
+        <option ${d.pri==='ด่วน'?'selected':''}>ด่วน</option>
+        <option ${d.pri==='กลาง'?'selected':''}>กลาง</option>
+        <option ${d.pri==='ต่ำ'?'selected':''}>ต่ำ</option>
+        <option ${d.pri==='standby'?'selected':''}>standby</option>
+      </select>
+    </div>
+    <div><input class="ic" value="${d.timing||''}" placeholder="W?" style="font-size:12px"></div>
+    <div><button class="btn-del" onclick="this.closest('.idea-row').remove()">×</button></div>`;
+  list.appendChild(row);
+}
+
+// ══════════════════════════════════════════
+// COPY BANK
+// ══════════════════════════════════════════
+const COPY_INIT = {
+  'hooks-list': [
+    'บ้านสภาพแบบนี้... ใครกล้าซื้อ?',
+    'ก่อน VS หลัง [X สัปดาห์] รีโนเวท',
+    'สถาปนิกดูอะไรก่อนซื้อบ้านมือสอง?',
+    'งบ [X] บาท รีโนเวทได้แค่ไหน?',
+    'เริ่มแล้ว! ทาวน์เฮ้าส์บางกะปิ — ช่างเข้าวันแรก',
+  ],
+  'ctas-list': [
+    'ติดตาม EP ถัดไป',
+    'DM มาถ้าสนใจบ้านหลังนี้',
+    'Save ไว้ถ้ากำลังคิดจะซื้อบ้านมือสอง',
+    '3.39M แถมออกแบบฟรีโดยสถาปนิก — DM ได้เลย',
+  ],
+  'cap-list': [
+    'เริ่มแล้ว [project] — ช่างเข้าวันแรก ✓\nติดตาม EP ถัดไปเพื่อดู transformation\n\n[hashtag]',
+    '[price] แถม architect consult ออกแบบให้ฟรี\nDM มาคุยได้เลย\n\n[hashtag]',
+    'ก่อน → หลัง [X สัปดาห์]\nจาก [สภาพเดิม] → [สภาพใหม่]\n\n[hashtag]',
+  ],
+  'hash-list': [
+    '#รีโนเวทบ้าน #ทาวน์เฮ้าส์มือสอง #สถาปนิก #homiehomie #บ้านมือสอง #บ้านแรก #กรุงเทพ',
+    '#คู้บอน #ทาวน์เฮ้าส์ #บ้านพร้อมเข้าอยู่ #homiehomie',
+    '#บ้านรีโนเวท #architecttip #ซื้อบ้านมือสอง #homiehomie',
+  ],
+};
+
+function addCopy(listId, placeholder){
+  const list = document.getElementById(listId);
+  const box = document.createElement('div');
+  box.className = 'copy-box';
+  box.innerHTML = `
+    <textarea class="copy-ta" rows="1" placeholder="${placeholder||'...'}"></textarea>
+    <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+    <span class="copy-tag" onclick="cpBox(this)">copy</span>`;
+  const ta = box.querySelector('textarea');
+  ta.addEventListener('input', ()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+  list.appendChild(box);
+  ta.focus();
+}
+
+function cpBox(el){
+  const text = el.parentElement.querySelector('textarea').value;
+  navigator.clipboard.writeText(text).catch(()=>{});
+  el.textContent = 'copied!';
+  setTimeout(()=>el.textContent='copy', 1500);
+}
+
+function initCopy(){
+  Object.entries(COPY_INIT).forEach(([id, items])=>{
+    items.forEach(text=>{
+      const list = document.getElementById(id);
+      const box = document.createElement('div');
+      box.className = 'copy-box';
+      box.innerHTML = `
+        <textarea class="copy-ta" rows="${Math.max(1,text.split('\n').length)}">${text}</textarea>
+        <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+        <span class="copy-tag" onclick="cpBox(this)">copy</span>`;
+      const ta = box.querySelector('textarea');
+      setTimeout(()=>{ ta.style.height=ta.scrollHeight+'px'; }, 0);
+      ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+      list.appendChild(box);
+    });
+  });
+}
+
+// ══════════════════════════════════════════
+// SAVE / LOAD HELPERS
+// ══════════════════════════════════════════
+const LS_KEY = 'homiehomie_planner_v4';
+let saveTimer = null;
+
+function readDOM() {
+  const data = {};
+
+  // weekly checks
+  data.bkkChecks = [];
+  document.querySelectorAll('#bkk-checks .check-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.bkkChecks.push({
+      checked: row.querySelector('.cb').classList.contains('checked'),
+      main: inputs[0]?.value || '',
+      sub: inputs[1]?.value || ''
+    });
+  });
+
+  // group table rows (skip header)
+  data.groupRows = [];
+  document.querySelectorAll('#group-table tr:not(:first-child)').forEach(tr => {
+    const inputs = tr.querySelectorAll('input');
+    const badge = tr.querySelector('.badge');
+    data.groupRows.push({
+      day: inputs[0]?.value || '',
+      group: inputs[1]?.value || '',
+      ver: badge?.textContent || '',
+      done: tr.querySelector('.cb')?.classList.contains('checked') || false
+    });
+  });
+
+  // signal tracker
+  data.signals = [];
+  document.querySelectorAll('.sig-wrap .sig-row:not(.sig-head)').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    data.signals.push([inputs[0]?.value||'', inputs[1]?.value||'', inputs[2]?.value||'']);
+  });
+
+  // pivot rule
+  const pivotInput = document.querySelector('.pivot-box input');
+  data.pivotRule = pivotInput?.value || '';
+
+  // video script
+  data.videoScript = [];
+  document.querySelectorAll('#weekly .card:nth-child(3) .tbl:first-of-type input').forEach(i => {
+    data.videoScript.push(i.value);
+  });
+  const capTA = document.querySelector('#weekly .card:nth-child(3) textarea:first-of-type');
+  data.caption = capTA?.value || '';
+  data.results = [];
+  document.querySelectorAll('#weekly .card:nth-child(3) .tbl:last-of-type input').forEach(i => {
+    data.results.push(i.value);
+  });
+  const summaryTA = document.querySelector('#weekly .card:nth-child(3) textarea:last-of-type');
+  data.summary = summaryTA?.value || '';
+
+  // week index
+  data.wIdx = wIdx;
+  data.weeksList = WEEKS_LIST;
+
+  // gate table
+  data.gates = [];
+  document.querySelectorAll('#gate-table tr:not(:first-child)').forEach(tr => {
+    const inputs = tr.querySelectorAll('input');
+    data.gates.push({
+      week: inputs[0]?.value||'', proj: inputs[1]?.value||'',
+      cond: inputs[2]?.value||'', pass: inputs[3]?.value||'', fail: inputs[4]?.value||''
+    });
+  });
+
+  // ideas
+  data.ideas = [];
+  document.querySelectorAll('#idea-list .idea-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const sel = row.querySelector('select');
+    data.ideas.push({
+      idea: inputs[0]?.value||'', proj: inputs[1]?.value||'',
+      pri: sel?.value||'กลาง', timing: inputs[2]?.value||''
+    });
+  });
+
+  // performance
+  data.perf = [];
+  document.querySelectorAll('#perf-list .perf-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const sels = row.querySelectorAll('select');
+    data.perf.push({
+      week: inputs[0]?.value||'', topic: inputs[1]?.value||'',
+      platform: sels[0]?.value||'', views: inputs[2]?.value||'',
+      likes: inputs[3]?.value||'', dm: inputs[4]?.value||'',
+      verdict: sels[1]?.value||''
+    });
+  });
+
+  // copy bank
+  data.copy = {};
+  ['hooks-list','ctas-list','cap-list','hash-list'].forEach(id => {
+    data.copy[id] = [];
+    document.querySelectorAll('#'+id+' .copy-ta').forEach(ta => {
+      data.copy[id].push(ta.value);
+    });
+  });
+
+  // insight textarea
+  const insightTA = document.querySelector('#performance .card:last-child textarea');
+  data.insight = insightTA?.value || '';
+
+  return data;
+}
+
+function schedSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      const data = readDOM();
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+      const now = new Date();
+      const t = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+      document.getElementById('save-indicator').textContent = 'saved '+t;
+    } catch(e) {
+      document.getElementById('save-indicator').textContent = 'save error';
+    }
+  }, 800);
+}
+
+function exportJSON() {
+  const data = readDOM();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const d = new Date();
+  const ds = d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+  a.href = url; a.download = 'homiehomie_planner_'+ds+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  document.getElementById('save-indicator').textContent = 'exported';
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+      document.getElementById('save-indicator').textContent = 'importing...';
+      setTimeout(() => location.reload(), 300);
+    } catch(err) {
+      alert('ไฟล์ JSON ไม่ถูกต้อง');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function loadFromStorage(saved) {
+  if (!saved) return false;
+  try {
+    const data = JSON.parse(saved);
+
+    // restore weeks
+    if (data.weeksList) { WEEKS_LIST.length=0; data.weeksList.forEach(w=>WEEKS_LIST.push(w)); }
+    wIdx = data.wIdx || 0;
+    document.getElementById('wtitle').textContent = WEEKS_LIST[wIdx];
+
+    // bkk checks
+    if (data.bkkChecks) {
+      data.bkkChecks.forEach(c => {
+        addCheck('bkk-checks', {main:c.main, sub:c.sub});
+        if (c.checked) {
+          const rows = document.querySelectorAll('#bkk-checks .check-row');
+          rows[rows.length-1].querySelector('.cb').classList.add('checked');
+        }
+      });
+    }
+
+    // group rows
+    if (data.groupRows) {
+      data.groupRows.forEach(r => {
+        addGroupRow({day:r.day, ver:r.ver, cls:'b-gray'});
+        const trs = document.querySelectorAll('#group-table tr:not(:first-child)');
+        const tr = trs[trs.length-1];
+        tr.querySelectorAll('input')[1].value = r.group;
+        if (r.done) tr.querySelector('.cb').classList.add('checked');
+      });
+    }
+
+    // signals
+    if (data.signals) {
+      const sigRows = document.querySelectorAll('.sig-wrap .sig-row:not(.sig-head)');
+      data.signals.forEach((s,i) => {
+        if (!sigRows[i]) return;
+        const inputs = sigRows[i].querySelectorAll('input');
+        s.forEach((v,j) => { if(inputs[j]) inputs[j].value = v; });
+      });
+    }
+
+    // pivot
+    if (data.pivotRule) {
+      const pi = document.querySelector('.pivot-box input');
+      if (pi) pi.value = data.pivotRule;
+    }
+
+    // video / caption / results / summary restored via textarea direct set after render
+
+    // gates
+    if (data.gates) data.gates.forEach(g => addGate(g));
+
+    // ideas
+    if (data.ideas) data.ideas.forEach(i => addIdea(i));
+
+    // perf
+    if (data.perf) data.perf.forEach(p => {
+      addPerfRow();
+      const rows = document.querySelectorAll('#perf-list .perf-row');
+      const row = rows[rows.length-1];
+      const inputs = row.querySelectorAll('input');
+      const sels = row.querySelectorAll('select');
+      [p.week,p.topic,p.views,p.likes,p.dm].forEach((v,i)=>{ if(inputs[i]) inputs[i].value=v; });
+      if(sels[0]) sels[0].value = p.platform;
+      if(sels[1]) sels[1].value = p.verdict;
+    });
+
+    // copy bank
+    if (data.copy) {
+      Object.entries(data.copy).forEach(([id, items]) => {
+        items.forEach(text => {
+          const list = document.getElementById(id);
+          const box = document.createElement('div');
+          box.className = 'copy-box';
+          box.innerHTML = `<textarea class="copy-ta" rows="${Math.max(1,text.split('\n').length)}">${text}</textarea><button class="btn-del" onclick="this.parentElement.remove()">×</button><span class="copy-tag" onclick="cpBox(this)">copy</span>`;
+          const ta = box.querySelector('textarea');
+          setTimeout(()=>{ ta.style.height=ta.scrollHeight+'px'; },0);
+          ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+          list.appendChild(box);
+        });
+      });
+    }
+
+    // insight
+    if (data.insight) {
+      const insTA = document.querySelector('#performance .card:last-child textarea');
+      if (insTA) insTA.value = data.insight;
+    }
+
+    document.getElementById('save-indicator').textContent = 'loaded';
+    return true;
+  } catch(e) {
+    console.warn('load error', e);
+    return false;
+  }
+}
+
+// ══════════════════════════════════════════
+// INIT ALL
+// ══════════════════════════════════════════
+(function init(){
+  document.getElementById('wtitle').textContent = WEEKS_LIST[0];
+
+  renderGantt();
+  renderStats();
+  renderProjects();
+  renderPerfStats();
+
+  const saved = localStorage.getItem(LS_KEY);
+  const didLoad = loadFromStorage(saved);
+
+  if (!didLoad) {
+    BKK_CHECKS.forEach(c => addCheck('bkk-checks', c));
+    GROUP_ROWS_INIT.forEach(r => addGroupRow(r));
+    GATES_INIT.forEach(g => addGate(g));
+    IDEAS_INIT.forEach(i => addIdea(i));
+    initCopy();
+  }
+
+  // autosave on any input/change
+  document.body.addEventListener('input', schedSave);
+  document.body.addEventListener('change', schedSave);
+  document.body.addEventListener('click', e => {
+    if (e.target.classList.contains('cb') || e.target.classList.contains('btn-del')) {
+      schedSave();
+    }
+  });
+
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById('save-indicator').textContent = 'autosaved';
+  }
+})();
+</script>
+</body>
+</html>
