@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Review — HomiеHomie</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f0f;
+  --bg2: #161616;
+  --bg3: #1e1e1e;
+  --border: #2a2a2a;
+  --border2: #333;
+  --text: #e8e6e0;
+  --text2: #888;
+  --text3: #555;
+  --teal: #1D9E75;
+  --teal-l: #E1F5EE;
+  --teal-d: #0a3d2e;
+  --amber: #EF9F27;
+  --amber-d: #3d2800;
+  --coral: #D85A30;
+  --coral-d: #3d1500;
+  --blue: #378ADD;
+  --blue-d: #0d2540;
+  --purple: #7F77DD;
+  --purple-d: #1e1c40;
+  --green: #5cb85c;
+  --radius: 8px;
+  --font: 'IBM Plex Sans Thai', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--teal);
+  padding: 14px 0;
+  white-space: nowrap;
+  letter-spacing: .05em;
+}
+.week-tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+  padding: 8px 0;
+}
+.week-tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all .15s;
+  font-weight: 400;
+}
+.tab:hover { background: var(--bg3); color: var(--text); }
+.tab.active {
+  background: var(--teal-d);
+  color: var(--teal);
+  border-color: var(--teal);
+}
+.tab .energy-dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.btn-new {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--mono);
+  background: var(--teal-d);
+  color: var(--teal);
+  border: 1px solid var(--teal);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.btn-new:hover { opacity: .8; }
+
+/* Main layout */
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+.week-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.week-title {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--teal);
+}
+.week-date-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border2);
+  color: var(--text2);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 2px 6px;
+  outline: none;
+  width: 130px;
+}
+.week-date-input:focus { border-color: var(--teal); color: var(--text); }
+.delete-week {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all .15s;
+}
+.delete-week:hover { border-color: var(--coral); color: var(--coral); }
+
+/* Sections */
+.section {
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.sec-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 500;
+  flex-shrink: 0;
+}
+.sec-title { font-size: 13px; font-weight: 500; }
+.sec-time { margin-left: auto; font-size: 11px; color: var(--text3); font-family: var(--mono); }
+
+/* Sub section */
+.sub-label {
+  padding: 9px 16px 5px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.field-row:last-child { border-bottom: none; }
+.field-label {
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.4;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.field-label small { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.field-input {
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  resize: none;
+  min-height: 40px;
+  width: 100%;
+}
+.field-input::placeholder { color: var(--text3); font-style: italic; }
+.field-input:focus { background: rgba(29,158,117,.04); }
+
+/* Property table */
+.prop-table { width: 100%; border-collapse: collapse; }
+.prop-table th {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+  font-weight: 400;
+}
+.prop-table td {
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.prop-table tr:last-child td { border-bottom: none; }
+.prop-table td input, .prop-table td select {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 10px 12px;
+  outline: none;
+  width: 100%;
+}
+.prop-table td input:focus, .prop-table td select:focus { background: rgba(29,158,117,.04); }
+.prop-name { font-weight: 500; }
+.status-cell { padding: 8px 12px !important; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; }
+.b-amber { background: var(--amber-d); color: var(--amber); }
+.b-green { background: var(--teal-d); color: var(--teal); }
+.b-blue { background: var(--blue-d); color: var(--blue); }
+.b-coral { background: var(--coral-d); color: var(--coral); }
+
+/* Energy slider */
+.energy-row {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.energy-label { font-size: 12px; color: var(--text2); width: 150px; flex-shrink: 0; }
+.energy-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border2);
+  outline: none;
+}
+.energy-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+}
+.energy-val {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--teal);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Brain dump */
+.brain-dump {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 14px 16px;
+  resize: none;
+  outline: none;
+  min-height: 120px;
+  line-height: 1.7;
+}
+.brain-dump::placeholder { color: var(--text3); font-style: italic; }
+
+/* Save bar */
+.save-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 12px 24px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.save-status { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+.save-status.saved { color: var(--teal); }
+.btn-save {
+  padding: 8px 20px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.btn-save:hover { opacity: .85; }
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text3);
+}
+.empty h2 { font-size: 16px; font-weight: 500; color: var(--text2); margin-bottom: 8px; }
+.empty p { font-size: 13px; margin-bottom: 20px; }
+
+@media (max-width: 600px) {
+  .topbar { padding: 0 14px; gap: 10px; }
+  .main { padding: 20px 14px 80px; }
+  .field-row { grid-template-columns: 1fr; }
+  .field-label { border-right: none; border-bottom: 1px solid var(--border); padding: 8px 14px 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">HH / review</div>
+  <div class="week-tabs" id="weekTabs"></div>
+  <button class="btn-new" onclick="newWeek()">+ สัปดาห์ใหม่</button>
+</div>
+
+<div class="main" id="mainContent"></div>
+
+<div class="save-bar">
+  <span class="save-status" id="saveStatus">—</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn-save" style="background:transparent;border:1px solid var(--border2);color:var(--text2)" onclick="exportWeek()">export .txt</button>
+    <button class="btn-save" onclick="saveAll()">บันทึก</button>
+  </div>
+</div>
+
+<script>
+const STORE_KEY = 'hh_weekly_reviews';
+const PROJECTS_KEY = 'hh_projects';
+
+const STATUS_OPTIONS = ['วิเคราะห์','รอซื้อ','รีโนเวท','BOQ','รอขาย','เร่งขาย','รอโอน','จบแล้ว'];
+const STATUS_STYLE = {
+  'วิเคราะห์': 'b-coral', 'รอซื้อ': 'b-coral', 'รีโนเวท': 'b-blue',
+  'BOQ': 'b-blue', 'รอขาย': 'b-amber', 'เร่งขาย': 'b-amber',
+  'รอโอน': 'b-green', 'จบแล้ว': 'b-gray'
+};
+
+let data = {};
+let projects = [];
+let currentWeek = null;
+
+function load() {
+  try { data = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { data = {}; }
+  try {
+    projects = JSON.parse(localStorage.getItem(PROJECTS_KEY));
+    if (!projects) throw new Error();
+  } catch(e) {
+    projects = [
+      { id: 'p1', name: 'คู้บอน', status: 'เร่งขาย' },
+      { id: 'p2', name: 'สายลม', status: 'รอโอน' },
+      { id: 'p3', name: 'บางกะปิ', status: 'BOQ' },
+      { id: 'p4', name: 'เสนา 125', status: 'วิเคราะห์' }
+    ];
+    saveProjects();
+  }
+}
+
+function saveProjects() {
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+}
+
+function save() {
+  if (currentWeek) syncCurrentToData();
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  const el = document.getElementById('saveStatus');
+  el.textContent = 'บันทึกแล้ว ✓';
+  el.className = 'save-status saved';
+  setTimeout(() => { el.textContent = '—'; el.className = 'save-status'; }, 2000);
+}
+
+function getEnergyColor(val) {
+  if (val >= 8) return '#1D9E75';
+  if (val >= 5) return '#EF9F27';
+  return '#D85A30';
+}
+
+function newWeek() {
+  const keys = Object.keys(data);
+  const weekNum = keys.length + 1;
+  const now = new Date();
+  const dateStr = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()+543}`;
+  const id = 'w' + Date.now();
+  const projectData = {};
+  projects.forEach(p => { projectData[p.id] = { update: '', next: '' }; });
+  data[id] = {
+    id, weekNum, date: dateStr, energy: 7,
+    work_done: '', work_pending: '',
+    projects: projectData,
+    doctor_status: '', doctor_next: '',
+    plan_work1: '', plan_work2: '', plan_work3: '',
+    plan_sat_am: '', plan_sat_pm: '',
+    plan_doctor: '', plan_decision: '',
+    energy_drain: '', energy_care: '',
+    brain_dump: ''
+  };
+  save();
+  renderTabs();
+  switchTab(id);
+}
+
+function switchTab(id) {
+  if (currentWeek) syncCurrentToData();
+  currentWeek = id;
+  renderTabs();
+  renderMain();
+}
+
+function syncCurrentToData() {
+  if (!currentWeek || !data[currentWeek]) return;
+  const d = data[currentWeek];
+  const get = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
+  d.date = get('f_date');
+  d.energy = parseInt(get('f_energy')) || 7;
+  d.work_done = get('f_work_done');
+  d.work_pending = get('f_work_pending');
+  if (!d.projects) d.projects = {};
+  projects.forEach(p => {
+    d.projects[p.id] = {
+      update: get('f_p_update_' + p.id),
+      next: get('f_p_next_' + p.id)
+    };
+  });
+  d.doctor_status = get('f_doctor_status');
+  d.doctor_next = get('f_doctor_next');
+  d.plan_work1 = get('f_plan_work1');
+  d.plan_work2 = get('f_plan_work2');
+  d.plan_work3 = get('f_plan_work3');
+  d.plan_sat_am = get('f_plan_sat_am');
+  d.plan_sat_pm = get('f_plan_sat_pm');
+  d.plan_doctor = get('f_plan_doctor');
+  d.plan_decision = get('f_plan_decision');
+  d.energy_drain = get('f_energy_drain');
+  d.energy_care = get('f_energy_care');
+  d.brain_dump = get('f_brain_dump');
+}
+
+function exportWeek() {
+  if (!currentWeek || !data[currentWeek]) return;
+  syncCurrentToData();
+  const d = data[currentWeek];
+  const days = ['จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์','อาทิตย์'];
+  const planWork = [d.plan_work1, d.plan_work2, d.plan_work3].filter(Boolean).join(' / ') || '—';
+  const schedLines = days.map((day, i) => {
+    if (i < 5) return `  ${day}: งานหลัก | TOP3: ${planWork}`;
+    if (i === 5) return `  ${day}: ${[d.plan_sat_am ? `เช้า ${d.plan_sat_am}` : '', d.plan_sat_pm ? `บ่าย ${d.plan_sat_pm}` : ''].filter(Boolean).join(' | ') || 'HomiеHomie'}`;
+    return `  ${day}: พัก / review 20.00${d.plan_doctor ? ` | บ้านคุณหมอ: ${d.plan_doctor}` : ''}`;
+  }).join('\n');
+  const projLines = projects.map(p => {
+    const pd = (d.projects && d.projects[p.id]) || {};
+    return `  - ${p.name} [${p.status}]: ${pd.update || '-'} | next: ${pd.next || '-'}`;
+  }).join('\n');
+
+  const txt = `=== Weekly Review สัปดาห์ที่ ${d.weekNum} | ${d.date} ===
+
+--- ตารางสัปดาห์นี้ ---
+${schedLines}
+
+--- งานหลัก ---
+สำเร็จ: ${d.work_done || '-'}
+ค้าง: ${d.work_pending || '-'}
+แผนสัปดาห์หน้า TOP 3:
+  1. ${d.plan_work1 || '-'}
+  2. ${d.plan_work2 || '-'}
+  3. ${d.plan_work3 || '-'}
+
+--- HomiеHomie ---
+${projLines}
+แผนเสาร์ เช้า (11-14): ${d.plan_sat_am || '-'}
+แผนเสาร์ บ่าย (15-18): ${d.plan_sat_pm || '-'}
+
+--- บ้านคุณหมอ ---
+status: ${d.doctor_status || '-'}
+next step: ${d.doctor_next || '-'}
+นัด/deadline: ${d.plan_doctor || '-'}
+
+--- check-in ---
+พลังงาน: ${d.energy || '-'}/10
+เสียพลังงานจาก: ${d.energy_drain || '-'}
+ดูแลตัวเอง: ${d.energy_care || '-'}
+
+--- brain dump ---
+${d.brain_dump || '-'}
+
+--- ต้องตัดสินใจ ---
+${d.plan_decision || '-'}
+
+=== Prompt สำหรับ Gemini ===
+ช่วยสร้าง Google Calendar events จากตารางด้านล่างนี้ให้หน่อย โดยใช้สัปดาห์ ${d.date} เป็นจุดอ้างอิง แต่ละวันให้สร้าง event ตามที่ระบุไว้ ถ้าไม่ได้ระบุเวลาให้ใช้ตามนี้: วันธรรมดางานหลัก 10.45-20.00, งานเสริมค่ำ 22.00-23.00, เสาร์ HomiеHomie 11.00-18.00, อาทิตย์ review 20.00-20.30
+
+${schedLines}
+`;
+
+  const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `weekly-review-W${d.weekNum}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function deleteWeek(id) {
+  if (!confirm(`ลบสัปดาห์ W${data[id].weekNum} ใช่มั้ย?`)) return;
+  delete data[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  const keys = Object.keys(data);
+  currentWeek = keys.length > 0 ? keys[keys.length - 1] : null;
+  renderTabs();
+  renderMain();
+}
+
+function addProject() {
+  const name = prompt('ชื่อทรัพย์ใหม่:');
+  if (!name || !name.trim()) return;
+  const id = 'p' + Date.now();
+  projects.push({ id, name: name.trim(), status: 'วิเคราะห์' });
+  saveProjects();
+  renderMain();
+  markDirty();
+}
+
+function removeProject(pid) {
+  const p = projects.find(x => x.id === pid);
+  if (!p) return;
+  if (!confirm(`ลบ "${p.name}" ออกจาก HomiеHomie?`)) return;
+  projects = projects.filter(x => x.id !== pid);
+  saveProjects();
+  renderMain();
+  markDirty();
+}
+
+function updateProjectStatus(pid, val) {
+  const p = projects.find(x => x.id === pid);
+  if (p) { p.status = val; saveProjects(); renderProjectBadge(pid, val); }
+  markDirty();
+}
+
+function renderProjectBadge(pid, status) {
+  const el = document.getElementById('badge_' + pid);
+  if (!el) return;
+  const cls = STATUS_STYLE[status] || 'b-gray';
+  el.className = `badge ${cls}`;
+  el.innerHTML = `<span class="badge-dot" style="background:currentColor;opacity:.7"></span>${status}`;
+}
+
+function toggleStatusMenu(pid) {
+  document.querySelectorAll('[id^="menu_"]').forEach(m => {
+    if (m.id !== 'menu_' + pid) m.style.display = 'none';
+  });
+  const menu = document.getElementById('menu_' + pid);
+  if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectStatus(pid, val) {
+  const menu = document.getElementById('menu_' + pid);
+  if (menu) menu.style.display = 'none';
+  updateProjectStatus(pid, val);
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('[id^="badge_"], [id^="menu_"]')) {
+    document.querySelectorAll('[id^="menu_"]').forEach(m => m.style.display = 'none');
+  }
+});
+
+function renderTabs() {
+  const container = document.getElementById('weekTabs');
+  const keys = Object.keys(data);
+  if (!keys.length) { container.innerHTML = ''; return; }
+  container.innerHTML = keys.map(id => {
+    const d = data[id];
+    const active = id === currentWeek ? 'active' : '';
+    const color = getEnergyColor(d.energy || 7);
+    return `<div class="tab ${active}" onclick="switchTab('${id}')">
+      W${d.weekNum} <span class="energy-dot" style="background:${color}"></span>
+    </div>`;
+  }).join('');
+}
+
+function renderMain() {
+  const container = document.getElementById('mainContent');
+  if (!currentWeek || !data[currentWeek]) {
+    container.innerHTML = `<div class="empty"><h2>ยังไม่มี weekly review</h2><p>กด "+ สัปดาห์ใหม่" เพื่อเริ่มสัปดาห์แรก</p></div>`;
+    return;
+  }
+  const d = data[currentWeek];
+  if (!d.projects) d.projects = {};
+  const ev = d.energy || 7;
+  const ecolor = getEnergyColor(ev);
+
+  const projectRows = projects.map(p => {
+    const pd = d.projects[p.id] || { update: '', next: '' };
+    const statusCls = STATUS_STYLE[p.status] || 'b-gray';
+    const statusOpts = STATUS_OPTIONS.map(s =>
+      `<option value="${s}" ${p.status === s ? 'selected' : ''}>${s}</option>`
+    ).join('');
+    return `<tr>
+      <td style="padding:8px 12px;font-weight:500;font-size:12px">${p.name}</td>
+      <td class="status-cell" style="position:relative">
+        <span id="badge_${p.id}" class="badge ${statusCls}" onclick="toggleStatusMenu('${p.id}')" style="cursor:pointer">
+          <span class="badge-dot" style="background:currentColor;opacity:.7"></span>${p.status}
+        </span>
+        <div id="menu_${p.id}" style="display:none;position:absolute;top:100%;left:0;z-index:50;background:#1e1e1e;border:1px solid #333;border-radius:6px;min-width:110px;box-shadow:0 4px 12px rgba(0,0,0,.5);overflow:hidden">
+          ${STATUS_OPTIONS.map(s => {
+            const sc = STATUS_STYLE[s] || 'b-gray';
+            return `<div onclick="selectStatus('${p.id}','${s}')" style="padding:8px 12px;font-size:11px;cursor:pointer;color:var(--text2)" onmouseover="this.style.background='#2a2a2a'" onmouseout="this.style.background=''">${s}</div>`;
+          }).join('')}
+        </div>
+      </td>
+      <td><input id="f_p_update_${p.id}" value="${(pd.update||'').replace(/"/g,'&quot;')}" placeholder="อัปเดต..." oninput="markDirty()" style="background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:12px;padding:10px 12px;outline:none;width:100%"></td>
+      <td><input id="f_p_next_${p.id}" value="${(pd.next||'').replace(/"/g,'&quot;')}" placeholder="next step..." oninput="markDirty()" style="background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:12px;padding:10px 12px;outline:none;width:100%"></td>
+      <td style="padding:4px 8px;text-align:center">
+        <button onclick="removeProject('${p.id}')" style="background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:4px">×</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="week-header">
+      <div class="week-title">สัปดาห์ที่ ${d.weekNum}</div>
+      <input id="f_date" class="week-date-input" value="${d.date||''}" placeholder="dd/mm/yyyy" oninput="markDirty()">
+      <button class="delete-week" onclick="deleteWeek('${currentWeek}')">ลบสัปดาห์นี้</button>
+    </div>
+
+    <!-- Section 0: read-only summary from section 2 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#1e1c40;color:#7F77DD">0</div>
+        <div class="sec-title">ตารางสัปดาห์นี้</div>
+        <div class="sec-time" style="font-size:10px;color:var(--text3)">ดึงจาก plan ด้านล่างอัตโนมัติ</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border)">
+        ${(()=>{
+          const days = ['จ','อ','พ','พฤ','ศ','ส','อา'];
+          const weekdayContent = `งานหลัก 10.45–20.00`;
+          const planWork = [d.plan_work1, d.plan_work2, d.plan_work3].filter(Boolean).join(', ') || '—';
+          const satContent = [d.plan_sat_am ? `เช้า: ${d.plan_sat_am}` : '', d.plan_sat_pm ? `บ่าย: ${d.plan_sat_pm}` : ''].filter(Boolean).join('\n') || 'HomiеHomie';
+          const sunContent = d.plan_doctor ? `บ้านคุณหมอ: ${d.plan_doctor}\nreview 20.00` : 'พัก / review 20.00';
+          const contents = [
+            `${weekdayContent}\n${planWork}`,
+            `${weekdayContent}\n${planWork}`,
+            `${weekdayContent}\n${planWork}`,
+            `${weekdayContent}\n${planWork}`,
+            `${weekdayContent}\nศุกร์คืน: ชิวๆ`,
+            satContent,
+            sunContent,
+          ];
+          return days.map((day, i) => {
+            const isWeekend = i >= 5;
+            const lines = contents[i].split('\n');
+            const linesHtml = lines.map((l,li) => `<div style="font-size:11px;color:${li===0?'var(--text)':'var(--text2)'};line-height:1.5">${l}</div>`).join('');
+            return `<div style="background:var(--bg2);display:flex;flex-direction:column">
+              <div style="padding:5px 8px;background:var(--bg3);font-size:11px;font-weight:500;font-family:var(--mono);color:${isWeekend?'var(--text)':'var(--text2)'};border-bottom:1px solid var(--border);text-align:center">${day}</div>
+              <div style="padding:8px;min-height:72px">${linesHtml}</div>
+            </div>`;
+          }).join('');
+        })()}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#1a3a30;color:#1D9E75">1</div>
+        <div class="sec-title">มองย้อนกลับ — สัปดาห์ที่ผ่านมา</div>
+        <div class="sec-time">~8 นาที</div>
+      </div>
+      <div class="sub-label">🏢 งานหลัก</div>
+      <div class="field-row">
+        <div class="field-label">สิ่งที่ทำสำเร็จ</div>
+        <textarea id="f_work_done" class="field-input" placeholder="เช่น ส่ง concept ลูกค้าได้..." oninput="markDirty()" rows="2">${d.work_done||''}</textarea>
+      </div>
+      <div class="field-row">
+        <div class="field-label">ยังค้าง<small>ย้ายไปสัปดาห์หน้า</small></div>
+        <textarea id="f_work_pending" class="field-input" placeholder="เช่น revise แบบ floor 3..." oninput="markDirty()" rows="2">${d.work_pending||''}</textarea>
+      </div>
+
+      <div class="sub-label" style="display:flex;align-items:center;justify-content:space-between;padding-right:12px">
+        <span>🏠 HomiеHomie</span>
+        <button onclick="addProject()" style="background:var(--teal-d);border:1px solid var(--teal);color:var(--teal);font-size:10px;padding:3px 10px;border-radius:4px;cursor:pointer;font-family:var(--mono)">+ เพิ่มทรัพย์</button>
+      </div>
+      <table class="prop-table">
+        <tr>
+          <th style="width:100px">ทรัพย์</th>
+          <th style="width:110px;position:relative">status <span style="font-size:9px;opacity:.5">(กดเปลี่ยนได้)</span></th>
+          <th>ความเคลื่อนไหว</th>
+          <th style="width:140px">next step</th>
+          <th style="width:32px"></th>
+        </tr>
+        ${projectRows}
+      </table>
+
+      <div class="sub-label">🏗️ บ้านคุณหมอ</div>
+      <div class="field-row">
+        <div class="field-label">status ล่าสุด</div>
+        <input id="f_doctor_status" class="field-input" value="${d.doctor_status||''}" placeholder="รังวัด / อนุญาต / แบบ..." oninput="markDirty()">
+      </div>
+      <div class="field-row">
+        <div class="field-label">next step</div>
+        <input id="f_doctor_next" class="field-input" value="${d.doctor_next||''}" placeholder="ขั้นตอนถัดไป..." oninput="markDirty()">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#1a2d40;color:#378ADD">2</div>
+        <div class="sec-title">plan — สัปดาห์หน้า</div>
+        <div class="sec-time">~10 นาที</div>
+      </div>
+      <div class="sub-label">🏢 งานหลัก TOP 3</div>
+      <div class="field-row"><div class="field-label">อันดับ 1</div><input id="f_plan_work1" class="field-input" value="${d.plan_work1||''}" oninput="markDirty()"></div>
+      <div class="field-row"><div class="field-label">อันดับ 2</div><input id="f_plan_work2" class="field-input" value="${d.plan_work2||''}" oninput="markDirty()"></div>
+      <div class="field-row"><div class="field-label">อันดับ 3</div><input id="f_plan_work3" class="field-input" value="${d.plan_work3||''}" oninput="markDirty()"></div>
+      <div class="sub-label">🏠 HomiеHomie เสาร์ (11.00–18.00)</div>
+      <div class="field-row"><div class="field-label">เช้า (11–14)</div><input id="f_plan_sat_am" class="field-input" value="${d.plan_sat_am||''}" placeholder="เช่น วิเคราะห์เสนา 125..." oninput="markDirty()"></div>
+      <div class="field-row"><div class="field-label">บ่าย (15–18)</div><input id="f_plan_sat_pm" class="field-input" value="${d.plan_sat_pm||''}" placeholder="เช่น content IG..." oninput="markDirty()"></div>
+      <div class="sub-label">🏗️ บ้านคุณหมอ + การตัดสินใจ</div>
+      <div class="field-row"><div class="field-label">นัด / deadline</div><input id="f_plan_doctor" class="field-input" value="${d.plan_doctor||''}" oninput="markDirty()"></div>
+      <div class="field-row">
+        <div class="field-label">ต้องตัดสินใจ<small>ค้างอยู่ในหัว</small></div>
+        <textarea id="f_plan_decision" class="field-input" placeholder="เช่น จะซื้อเสนา 125 มั้ย..." oninput="markDirty()" rows="2">${d.plan_decision||''}</textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#2d1f0a;color:#EF9F27">3</div>
+        <div class="sec-title">check-in ตัวเอง</div>
+        <div class="sec-time">~5 นาที</div>
+      </div>
+      <div class="energy-row">
+        <div class="energy-label">พลังงานสัปดาห์นี้</div>
+        <input type="range" id="f_energy" class="energy-slider" min="1" max="10" step="1" value="${ev}" oninput="updateEnergy(this.value)">
+        <div class="energy-val" id="energy_display" style="color:${ecolor}">${ev}</div>
+      </div>
+      <div class="field-row">
+        <div class="field-label">สิ่งที่เสียพลังงาน</div>
+        <textarea id="f_energy_drain" class="field-input" placeholder="เช่น รอ developer นาน..." oninput="markDirty()" rows="2">${d.energy_drain||''}</textarea>
+      </div>
+      <div class="field-row">
+        <div class="field-label">จะดูแลตัวเองยังไง</div>
+        <textarea id="f_energy_care" class="field-input" placeholder="เช่น นอนก่อน 1.00 อย่างน้อย 3 วัน..." oninput="markDirty()" rows="2">${d.energy_care||''}</textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#1e1c40;color:#7F77DD">4</div>
+        <div class="sec-title">🧠 brain dump — ปล่อยออกจากหัว</div>
+        <div class="sec-time">~5 นาที</div>
+      </div>
+      <textarea id="f_brain_dump" class="brain-dump" placeholder="เขียนทุกอย่างที่ค้างในหัวออกมา ไม่ต้องจัดระเบียบ..." oninput="markDirty()" rows="6">${d.brain_dump||''}</textarea>
+    </div>
+
+    <div style="text-align:center;padding:20px 0;color:var(--text3);font-family:var(--mono);font-size:12px">
+      ✓ done — กด บันทึก แล้ววางโทรศัพท์ได้เลย
+    </div>
+  `;
+
+  const slider = document.getElementById('f_energy');
+  if (slider) slider.style.background = `linear-gradient(to right, ${ecolor} 0%, ${ecolor} ${(ev-1)/9*100}%, var(--border2) ${(ev-1)/9*100}%, var(--border2) 100%)`;
+}
+
+function updateEnergy(val) {
+  const color = getEnergyColor(parseInt(val));
+  document.getElementById('energy_display').textContent = val;
+  document.getElementById('energy_display').style.color = color;
+  const slider = document.getElementById('f_energy');
+  slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${(val-1)/9*100}%, var(--border2) ${(val-1)/9*100}%, var(--border2) 100%)`;
+  markDirty();
+}
+
+function markDirty() {
+  document.getElementById('saveStatus').textContent = 'มีการเปลี่ยนแปลง...';
+  document.getElementById('saveStatus').className = 'save-status';
+}
+
+setInterval(() => { if (currentWeek) save(); }, 30000);
+
+load();
+const keys = Object.keys(data);
+currentWeek = keys.length > 0 ? keys[keys.length - 1] : null;
+renderTabs();
+renderMain();
+</script>
+</body>
+</html>
